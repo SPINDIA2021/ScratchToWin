@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.myapps.onlysratchapp">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+    <queries>
+        <intent><action android:name="android.intent.action.MAIN" /></intent>
+    </queries> />
+    <!--<uses-permission android:name="android.permission.Ad_ID" />-->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ScratchToWin"
+        android:usesCleartextTraffic="true"
+
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        tools:targetApi="31">
+
+        <!--android:networkSecurityConfig="@xml/network_security_config"-->
+
+        <activity
+            android:name=".activity.ReferActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ScratchToWin.NoActionBar" />
+        <activity
+            android:name=".activity.GoldActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/Theme.ScratchToWin.NoActionBar" />
+        <activity
+            android:name=".activity.PolicyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ScratchToWin.NoActionBar" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
+            android:name=".activity.VerifyUserActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
+            android:name=".activity.VerifyFirstOTPActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
+            android:name=".activity.VerifySecondOTPActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
+            android:name=".activity.WithdrawFirstVerifyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+
+        <activity
+            android:name=".activity.WithdrawSecondVerifyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+
+        <activity
+            android:name=".activity.WalletActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
+            android:name=".activity.PassbookActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+
+        <activity
+            android:name=".activity.CoinsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
+            android:name=".activity.LevelActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+
+        <activity
+            android:name=".activity.SilverAdMobActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+
+        <activity
+            android:name=".activity.PlatinumInmobiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+
+        <activity
+            android:name=".activity.GoldInmobiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme" />
+
+
+
+        <activity
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ScratchToWin.NoActionBar" />
+
+        <activity android:name=".activity.GoldFBActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".activity.SilverFBActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".activity.PlatinumFBActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+
+        <activity android:name=".activity.GoldAdColonyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".activity.SilverAdColonyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+
+        <activity android:name=".activity.PlatinumAdColonyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".activity.SilverInMobiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".activity.SilverApplovinActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".activity.PlatinumAppLovinActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".activity.GoldAppLovinActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".mobileRecharge.MobileRechargeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".dth.DthRechargeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".electricityRecharge.ElectricityRechargeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".landlineRecharge.LandLineRechargeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+
+        <!--AD MOB-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+
+
+
+
+        <service
+            android:name=".services.PointsService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".services.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher_round" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimaryDark" />
+
+
+        <!-- start.io-->
+        <provider    android:name="com.startapp.sdk.adsbase.StartAppInitProvider"
+            android:authorities="${applicationId}.startappinitprovider"
+            android:exported="false" />
+        <activity
+            android:name="com.startapp.sdk.adsbase.consent.ConsentActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:theme="@android:style/Theme.Translucent"/>
+        <activity
+            android:name="com.startapp.sdk.ads.list3d.List3DActivity"
+            android:theme="@android:style/Theme"/>
+        <activity    android:name="com.startapp.sdk.ads.interstitials.OverlayActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:theme="@android:style/Theme.Translucent"/>
+        <service android:name="com.startapp.sdk.cachedservice.BackgroundService" />
+        <service    android:name="com.startapp.sdk.jobs.SchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <receiver android:name="com.startapp.sdk.adsbase.remoteconfig.BootCompleteListener"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+
+
+        </receiver>
+
+
+        <meta-data android:name="com.startapp.sdk.APPLICATION_ID" android:value="211265049" />
+        <meta-data android:name="com.startapp.sdk.RETURN_ADS_ENABLED" android:value="false" />
+
+        <!--Vungle-->
+        <activity
+            android:name="com.vungle.warren.ui.VungleActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <provider
+            android:name="com.vungle.warren.utility.VungleProvider"
+            android:authorities="${applicationId}.vungle-provider"
+            android:exported="false" />
+
+
+
+        <!--Applovin-->
+        <meta-data android:name="applovin.sdk.key"
+            android:value="FkWtfzFaNqFgGWVn23DXMTSJauEs0Mu77qGgbkOkJxvi8aspF5fi1GD7lFnT1KHXxQU5IVIr1h711PZ3i8gPH5"/>
+
+
+    </application>
+
+</manifest>

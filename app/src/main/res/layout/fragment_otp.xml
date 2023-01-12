@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray"
+    tools:context=".fragments.ForgotFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/ic_bg" />
+
+        <ImageView
+            android:id="@+id/back_img_forgot"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_6sdp"
+            app:srcCompat="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/login_txt_forgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:text="Verify Mobile"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_24ssp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/bg">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:elevation="@dimen/_8sdp"
+                app:cardCornerRadius="@dimen/_6sdp"
+                app:cardElevation="@dimen/_4sdp">
+
+                <RelativeLayout
+                    android:id="@+id/otp_base_lyt"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_20sdp">
+
+                    <TextView
+                        android:id="@+id/forgot_text_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="15dp"
+                        android:text="We have sent you an access code via SMS for mobile number verification."
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp" />
+
+
+                    <LinearLayout
+                        android:id="@+id/otp_lyt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/forgot_text_title"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:visibility="visible">
+
+                        <in.aabhasjindal.otptextview.OtpTextView
+                            android:id="@+id/otpEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:textColor="@color/black"
+                            android:visibility="visible"
+                            app:bar_enabled="false"
+                            app:bar_height="2dp"
+                            app:height="40dp"
+                            app:length="6"
+                            app:otp_box_background="@drawable/button_bg"
+                            app:otp_text_size="24dp"
+                            app:width="40dp" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layotp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/otp_lyt"
+                        android:layout_marginHorizontal="30dp"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/refer_lyt"
+                            style="@style/LoginTextInputLayoutStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="60dp"
+                            app:counterTextColor="@color/colorPrimary">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/refer_edit_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Enter referal code"
+                                android:inputType="text"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <ImageView
+                            android:id="@+id/btn_verify"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:tint="@color/colorPrimaryDark"
+                            app:srcCompat="@drawable/verify" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/text_refer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layotp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center"
+                        android:textSize="15sp"
+                        android:text="@string/resend_otp"
+                        android:textColor="@color/colorPrimary"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/resend_otp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:gravity="end"
+                        android:layout_below="@+id/text_refer"
+                        android:text="@string/resend_otp"
+                        android:textColor="@color/colorPrimary"
+                        android:visibility="gone" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/verify_btn"
+                        android:layout_width="@dimen/_200sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/resend_otp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:background="@drawable/btn_bg"
+                        android:text="Verify"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

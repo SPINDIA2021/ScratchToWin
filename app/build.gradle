@@ -1,0 +1,140 @@
+plugins {
+    id 'com.android.application'
+
+}
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.myapps.onlysratchapp"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.10"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation files('libs/unity-ads.aar')
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.10"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    implementation project(':scratchcardlayout')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+    implementation 'com.google.android.play:core:1.10.3'
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
+    //implementation 'in.codeshuffle.scratchcardlayout:ScratchCardLayout:1.0.8'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+  //  implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'
+    implementation 'com.github.aabhasr1:OtpView:v1.1.2'
+   // implementation 'cc.cloudist.acplibrary:library:1.2.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.shreyaspatil:EasyUpiPayment:2.0"
+
+
+    //AD MOB
+    implementation 'com.google.android.gms:play-services-ads:21.4.0'
+
+    //FB
+    implementation 'com.facebook.android:audience-network-sdk:6.+'
+
+    //chartboost
+    implementation 'com.chartboost:chartboost-sdk:9.1.1'
+
+    //ironsource
+    implementation 'com.ironsource.sdk:mediationsdk:7.2.6'
+
+    //appnext
+    // For the Interstitial and Rewarded/Fullscreen video ad unit:
+    //noinspection GradleCompatible
+    implementation "com.android.support:customtabs:27.1.1"
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.appnext.sdk:ads:2.6.8.473'
+    implementation 'com.appnext.sdk:ads:2.+'
+
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+    implementation 'androidx.annotation:annotation:1.1.0' // Mandatory
+    implementation "androidx.work:work-runtime:2.4.0"  // Mandatory
+
+    //inmobi
+  //  implementation 'com.inmobi.monetization:inmobi-ads:10.1.1'
+    implementation 'androidx.browser:browser:1.4.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:support-v4:28.0.0'
+
+    implementation "com.inmobi.monetization:inmobi-ads-kotlin:10.5.3"
+
+
+
+    //vungle
+    implementation 'com.vungle:publisher-sdk-android:6.12.0'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
+    // Recommended for SDK to be able to get Android Advertising ID
+    implementation 'com.google.android.gms:play-services-basement:18.1.0'
+    // Starting with v6.10.3, the Vungle SDK supports app set ID.
+    // To take advantage of this feature, include Google Play Services tasks and appset libraries
+    // inside build.gradle
+    implementation 'com.google.android.gms:play-services-tasks:18.0.2'
+    implementation 'com.google.android.gms:play-services-appset:16.0.2'
+
+
+    //applovin
+    implementation 'com.google.ads.mediation:applovin:11.6.0.0'
+
+
+    // Adcolony
+     implementation 'com.adcolony:sdk:4.8.0'
+
+
+    //Pangle
+ //   implementation(name: 'open_ad_sdk', ext: 'aar')
+    implementation 'com.pangle.global:ads-sdk:4.9.0.6'
+
+    def lifecycle_version = "1.1.1"
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+}
+//apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'applovin-quality-service'
+/*
+applovin {
+    apiKey "TzkdsHdmfqTQvyU0zkyPoeaLJny9mkM1WP05V2Wkp9nKQRy0TDeSyyogBmwPiCvnNuX39kBC0lxTfbwVvB5ebv"
+}*/
