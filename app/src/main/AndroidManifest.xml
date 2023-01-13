@@ -173,6 +173,9 @@
         <activity android:name=".landlineRecharge.LandLineRechargeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".addMoney.AddMoneyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
 
         <meta-data
             android:name="preloaded_fonts"

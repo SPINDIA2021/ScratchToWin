@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">New Pocket Rupiya Paisa</string>
+    <string name="app_name">Sahayata Money</string>
 
     <!-- TODO Enable ads which ad network you want -->
     <string name="ad_network" translatable="false">admob</string> <!-- admob/facebook -->

@@ -195,7 +195,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
         operator_type: String
     ) {
         Log.v("MobPrep","Operator Api: Call")
-        root.progress_bar.visibility = View.VISIBLE
+        root.progress_bar_mobpre.visibility = View.VISIBLE
         if (AppCommonMethods(context).isNetworkAvailable) {
             val mAPIcall = AppApiCalls(
                 requireContext(),
@@ -213,7 +213,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
         cus_id: String
     ) {
 
-        root.progress_bar.visibility = View.VISIBLE
+        root.progress_bar_mobpre.visibility = View.VISIBLE
         if (AppCommonMethods(context).isNetworkAvailable) {
             val mAPIcall = AppApiCalls(
                 requireContext(),
@@ -233,7 +233,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
         amount: String,
         operator: String
     ) {
-        root.progress_bar.visibility = View.VISIBLE
+        root.progress_bar_mobpre.visibility = View.VISIBLE
 
         if (AppCommonMethods(requireContext()).isNetworkAvailable) {
             val mAPIcall = AppApiCalls(
@@ -252,7 +252,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
         cus_mobile: String,
         pin: String
     ) {
-        root.progress_bar.visibility = View.VISIBLE
+        root.progress_bar_mobpre.visibility = View.VISIBLE
 
         if (AppCommonMethods(requireContext()).isNetworkAvailable) {
             val mAPIcall = AppApiCalls(
@@ -274,7 +274,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
         operator: String,
         cus_type: String,
     ) {
-        root.progress_bar.visibility = View.VISIBLE
+        root.progress_bar_mobpre.visibility = View.VISIBLE
 
         if (AppCommonMethods(requireContext()).isNetworkAvailable) {
             val mAPIcall = AppApiCalls(
@@ -299,7 +299,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
         cus_type: String,
         circle_code: String
     ) {
-        progress_bar.visibility = View.VISIBLE
+        progress_bar_mobpre.visibility = View.VISIBLE
 
         if (AppCommonMethods(requireContext()).isNetworkAvailable) {
             val mAPIcall =
@@ -314,7 +314,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
     }
 
     private fun circle() {
-        //progress_bar.visibility = View.VISIBLE
+        //progress_bar_mobpre.visibility = View.VISIBLE
 
         if (AppCommonMethods(requireContext()).isNetworkAvailable) {
             val mAPIcall =
@@ -338,7 +338,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
           //  Log.v("MobPrep","Operator STATUS: "+status)
           //  Log.v("MobPrep","BALANCE_API MESSAGE: "+messageCode)
             if (status.contains("true")) {
-                root.progress_bar.visibility = View.GONE
+                root.progress_bar_mobpre.visibility = View.GONE
 
                 val cast = jsonObject.getJSONArray("result")
 
@@ -358,13 +358,13 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
 
             } else {
 
-                root.progress_bar.visibility = View.GONE
+                root.progress_bar_mobpre.visibility = View.GONE
 
 
             }
         }
         if (flag.equals(AppConstants.BALANCE_API)) {
-            root.progress_bar.visibility = View.GONE
+            root.progress_bar_mobpre.visibility = View.GONE
             Log.e(AppConstants.BALANCE_API, result)
             Log.v("MobPrep","BALANCE_API: "+result)
             val jsonObject = JSONObject(result)
@@ -386,7 +386,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
 
 
             } else {
-                root.progress_bar.visibility = View.GONE
+                root.progress_bar_mobpre.visibility = View.GONE
                 if (messageCode.equals(getString(R.string.error_expired_token))) {
                     AppCommonMethods.logoutOnExpiredDialog(requireContext())
                 } else {
@@ -403,7 +403,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
             Log.e(AppConstants.STATUS, status)
             Log.v("MobPrep","CHECK_SAME_RECHARGE_API: STATUS "+status)
             if (status.contains("true")) {
-                root.progress_bar.visibility = View.GONE
+                root.progress_bar_mobpre.visibility = View.GONE
                 rechargeApi(
                     cus_id, root.etMobileNumberPrepaid.text.toString(),
                     root.etAmountPrepaid.text.toString(), operator_code, cus_type
@@ -413,7 +413,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
 
             } else {
 
-                root.progress_bar.visibility = View.GONE
+                root.progress_bar_mobpre.visibility = View.GONE
                 showMessageDialog(getString(R.string.error_attention), message)
 
             }
@@ -422,22 +422,23 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
             Log.e(AppConstants.RECHARGE_API, result)
             val jsonObject = JSONObject(result)
             Log.v("MobPrep","RECHARGE_API: RESULT "+result)
-            root.progress_bar.visibility = View.GONE
+            Toast.makeText(requireContext(), result, Toast.LENGTH_SHORT).show()
+            root.progress_bar_mobpre.visibility = View.GONE
             val status = jsonObject.getString(AppConstants.STATUS)
             Log.e(AppConstants.STATUS, status)
             if (status.contains(AppConstants.TRUE)) {
-                root.progress_bar.visibility = View.GONE
+                root.progress_bar_mobpre.visibility = View.GONE
 
                 val resultObject = jsonObject.getJSONObject("result")
                 val message = resultObject.getString(AppConstants.MESS)
-
+                Log.v("MobPrep","RECHARGE_API result: "+result)
                 showSuccessOrFailedDialog(getString(R.string.status), message)
 
             } else {
                 val resultObject = jsonObject.getJSONObject("result")
                 Log.v("MobPrep","RECHARGE_API: result "+resultObject)
                 val message = resultObject.getString(AppConstants.MESS)
-                root.progress_bar.visibility = View.GONE
+                root.progress_bar_mobpre.visibility = View.GONE
                 showSuccessOrFailedDialog(getString(R.string.status), message)
                 Log.v("MobPrep","RECHARGE_API: STATUS "+message)
             }
@@ -449,7 +450,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
             val message = jsonObject.getString(AppConstants.MESSAGE)
             Log.e(AppConstants.STATUS, status)
             if (status.contains(AppConstants.TRUE)) {
-                root.progress_bar.visibility = View.GONE
+                root.progress_bar_mobpre.visibility = View.GONE
                 rechargeApi(
                     cus_id, root.etMobileNumberPrepaid.text.toString(),
                     root.etAmountPrepaid.text.toString(), operator_code, cus_type
@@ -457,7 +458,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
 
             } else {
 
-                root.progress_bar.visibility = View.GONE
+                root.progress_bar_mobpre.visibility = View.GONE
                 showMessageDialog(getString(R.string.error_attention), message)
 
             }
@@ -469,7 +470,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
             Log.e(AppConstants.STATUS, status)
             //Log.e(AppConstants.MESSAGE_CODE, messageCode);
             if (status.contains("true")) {
-                progress_bar.visibility = View.INVISIBLE
+                progress_bar_mobpre.visibility = View.INVISIBLE
 
                 val resultObject = jsonObject.getJSONObject("result")
                 val cast = resultObject.getJSONArray("PlanDescription")
@@ -486,7 +487,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
 
             } else {
 
-                progress_bar.visibility = View.INVISIBLE
+                progress_bar_mobpre.visibility = View.INVISIBLE
 
             }
         }
@@ -499,7 +500,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
             Log.e(AppConstants.STATUS, status)
        //     Log.v("MobPrep","CIRCLE: STATUS "+status)
             if (status.contains("true")) {
-                progress_bar.visibility = GONE
+                progress_bar_mobpre.visibility = GONE
                 //progress_bar_state.visibility = View.INVISIBLE
 
                 val cast = jsonObject.getJSONArray("result")
@@ -514,7 +515,7 @@ class MobilePrepaidFragment : Fragment(), AppApiCalls.OnAPICallCompleteListener,
                 }
                 //ShowBottomSheetState()
             } else {
-                progress_bar.visibility = GONE
+                progress_bar_mobpre.visibility = GONE
                 //progress_bar_state.visibility = View.INVISIBLE
             }
         }

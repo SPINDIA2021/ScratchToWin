@@ -17,15 +17,17 @@ import androidx.appcompat.widget.Toolbar
 import com.chartboost.sdk.impl.t
 import com.google.gson.Gson
 import com.myapps.onlysratchapp.R
-import com.myapps.onlysratchapp.addMoney.activities_upi.PaymentStatusListener
+import dev.shreyaspatil.easyupipayment.listener.PaymentStatusListener
 import com.myapps.onlysratchapp.addMoney.activities_upi.PaymentSuccess
 import com.myapps.onlysratchapp.addMoney.activities_upi.Singleton2
-import com.myapps.onlysratchapp.addMoney.activities_upi.TransactionDetails
 import com.myapps.onlysratchapp.network_calls.AppApiCalls
 import com.myapps.onlysratchapp.utils.AppCommonMethods
 import com.myapps.onlysratchapp.utils.AppConstants
 import com.myapps.onlysratchapp.utils.Constant
 import com.myapps.onlysratchapp.utils.toast
+import dev.shreyaspatil.easyupipayment.EasyUpiPayment
+import dev.shreyaspatil.easyupipayment.model.PaymentApp
+import dev.shreyaspatil.easyupipayment.model.TransactionDetails
 import kotlinx.android.synthetic.main.activity_add_money.*
 
 
@@ -178,7 +180,7 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
                         // Get transactions details from response.
                         val transactionDetails =
                             getTransactionDetails(response)
-                        if (transactionDetails.status!!.toLowerCase() == "success") {
+                        if (transactionDetails.status!!.toString() == "success") {
 
                             addFundsApi(
                                cus_id, et_ammount.text.toString(), "UPI Payment",
@@ -199,7 +201,7 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
                             Log.e("approvalRefNo", approvalRefNo)
                             Log.e("txnRef       ", txnRef)
 
-                        } else if (transactionDetails.status!!.toLowerCase(Locale.getDefault()) == "submitted") {
+                        } else if (transactionDetails.status!!.toString() == "submitted") {
                             val intent = Intent(
                                 this@AddMoneyActivity,
                                 PaymentSuccess::class.java
@@ -313,14 +315,14 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
     }
 
     // Make TransactionDetails object from response string
-    private fun getTransactionDetails(response: String): TransactionDetails {
+    private fun getTransactionDetails(response: String): com.myapps.onlysratchapp.addMoney.activities_upi.TransactionDetails {
         val map = getQueryString(response)
         val transactionId = map["txnId"]
         val responseCode = map["responseCode"]
         val approvalRefNo = map["ApprovalRefNo"]
         val status = map["Status"]
         val transactionRefId = map["txnRef"]
-        return TransactionDetails(
+        return com.myapps.onlysratchapp.addMoney.activities_upi.TransactionDetails(
             transactionId,
             responseCode,
             approvalRefNo,
@@ -570,9 +572,9 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
     ) {
         // on below line we are calling an easy payment method and passing
         // all parameters to it such as upi id,name, description and others.
-
-        /*val easyUpiPayment = EasyUpiPayment.Builder()
-            .with(this) // on below line we are adding upi id.
+        val paymentApp = PaymentApp.ALL
+        val easyUpiPayment = EasyUpiPayment.Builder(this)
+            .with(paymentApp) // on below line we are adding upi id.
             .setPayeeVpa("8959525051@ybl") // on below line we are setting name to which we are making oayment.
             .setPayeeName(name) // on below line we are passing transaction id.
             .setTransactionId(transactionId) // on below line we are passing transaction ref id.
@@ -585,80 +587,25 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
         easyUpiPayment.startPayment()
         // on below line we are calling a set payment
         // status listener method to call other payment methods.
-        easyUpiPayment.setPaymentStatusListener(this)*/
+        easyUpiPayment.setPaymentStatusListener(this)
     }
 
 
 
-    override fun onTransactionCompleted(transactionDetails: TransactionDetails?) {
-        try {
-            // Get transactions details from response.
 
-            if (transactionDetails!!.status!!.toLowerCase() == "success") {
 
-                addFundsApi(
-                    cus_id, et_ammount.text.toString(), "UPI Payment",
-                    transactionDetails!!.getTransactionId().toString(),
-                    transactionDetails!!.getTransactionRefId().toString(),
-                    "",
-                    "",
-                    cus_pin,
-                    cus_pass,
-                    cus_mobile, cus_type
-                )
-                transactionId = transactionDetails!!.getTransactionId().toString()
-                txnRef = transactionDetails!!.getTransactionRefId().toString()
-                responseCode = transactionDetails!!.getResponseCode().toString()
-                approvalRefNo = transactionDetails!!.getApprovalRefNo().toString()
-                Log.e("transactionId", transactionId)
-                Log.e("responseCode ", responseCode)
-                Log.e("approvalRefNo", approvalRefNo)
-                Log.e("txnRef       ", txnRef)
-
-            } else if (transactionDetails!!.status!!.toLowerCase(Locale.getDefault()) == "submitted") {
-                val intent = Intent(
-                    this@AddMoneyActivity,
-                    PaymentSuccess::class.java
-                )
-                intent.putExtra("status", 2)
-                intent.putExtra("amount", et_ammount.text.toString())
-                intent.putExtra("transactionId", transactionDetails.getTransactionId())
-                intent.putExtra("responseCode", transactionDetails.getResponseCode())
-                intent.putExtra("approvalRefNo", transactionDetails.getApprovalRefNo())
-                intent.putExtra("txnRef", transactionDetails.getTransactionRefId())
-                startActivity(intent)
-            } else {
-                val intent = Intent(
-                    this@AddMoneyActivity,
-                    PaymentSuccess::class.java
-                )
-                intent.putExtra("status", 0)
-                intent.putExtra("amount", et_ammount.text.toString())
-                intent.putExtra("transactionId", transactionDetails.getTransactionId())
-                intent.putExtra("responseCode", transactionDetails.getResponseCode())
-                intent.putExtra("approvalRefNo", transactionDetails.getApprovalRefNo())
-                intent.putExtra("txnRef", transactionDetails.getTransactionRefId())
-                startActivity(intent)
-            }
-        } catch (e: Exception) {
-            callbackTransactionCancelled()
-            callbackTransactionFailed()
-        }
-
-    }
-
-    override fun onTransactionSuccess() {
+    fun onTransactionSuccess() {
         // this method is called when transaction is successful and we are displaying a toast message.
         Toast.makeText(this, "Transaction successfully completed..", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onTransactionSubmitted() {
+    fun onTransactionSubmitted() {
         // this method is called when transaction is done
         // but it may be successful or failure.
         Log.e("TAG", "TRANSACTION SUBMIT")
     }
 
-    override fun onTransactionFailed() {
+    fun onTransactionFailed() {
         // this method is called when transaction is failure.
         Toast.makeText(this, "Failed to complete transaction", Toast.LENGTH_SHORT).show()
     }
@@ -668,7 +615,63 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
         Toast.makeText(this, "Transaction cancelled..", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onAppNotFound() {
+    override fun onTransactionCompleted(transactionDetails: TransactionDetails) {
+        try {
+            // Get transactions details from response.
+
+            if (transactionDetails!!.transactionStatus.toString().toLowerCase() == "success") {
+
+                addFundsApi(
+                    cus_id, et_ammount.text.toString(), "UPI Payment",
+                    transactionDetails!!.transactionId.toString(),
+                    transactionDetails!!.transactionRefId.toString(),
+                    "",
+                    "",
+                    cus_pin,
+                    cus_pass,
+                    cus_mobile, cus_type
+                )
+                transactionId = transactionDetails!!.transactionId.toString()
+                txnRef = transactionDetails!!.transactionRefId.toString()
+                responseCode = transactionDetails!!.responseCode.toString()
+                approvalRefNo = transactionDetails!!.approvalRefNo.toString()
+                Log.e("transactionId", transactionId)
+                Log.e("responseCode ", responseCode)
+                Log.e("approvalRefNo", approvalRefNo)
+                Log.e("txnRef       ", txnRef)
+
+            } else if (transactionDetails!!.transactionStatus.toString().toLowerCase(Locale.getDefault()) == "submitted") {
+                val intent = Intent(
+                    this@AddMoneyActivity,
+                    PaymentSuccess::class.java
+                )
+                intent.putExtra("status", 2)
+                intent.putExtra("amount", et_ammount.text.toString())
+                intent.putExtra("transactionId", transactionDetails.transactionId)
+                intent.putExtra("responseCode", transactionDetails.responseCode)
+                intent.putExtra("approvalRefNo", transactionDetails.approvalRefNo)
+                intent.putExtra("txnRef", transactionDetails.transactionRefId)
+                startActivity(intent)
+            } else {
+                val intent = Intent(
+                    this@AddMoneyActivity,
+                    PaymentSuccess::class.java
+                )
+                intent.putExtra("status", 0)
+                intent.putExtra("amount", et_ammount.text.toString())
+                intent.putExtra("transactionId", transactionDetails.transactionId)
+                intent.putExtra("responseCode", transactionDetails.responseCode)
+                intent.putExtra("approvalRefNo", transactionDetails.approvalRefNo)
+                intent.putExtra("txnRef", transactionDetails.transactionRefId)
+                startActivity(intent)
+            }
+        } catch (e: Exception) {
+            callbackTransactionCancelled()
+            callbackTransactionFailed()
+        }
+    }
+
+    fun onAppNotFound() {
         // this method is called when the users device is not having any app installed for making payment.
         Toast.makeText(this, "No app found for making transaction..", Toast.LENGTH_SHORT).show()
     }

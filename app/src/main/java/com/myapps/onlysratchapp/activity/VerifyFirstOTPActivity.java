@@ -74,7 +74,7 @@ public class VerifyFirstOTPActivity extends AppCompatActivity implements  LoginC
         baseLyt = findViewById(R.id.otp_base_lyt);
         tvTitle = findViewById(R.id.login_txt_forgot);
         btnVerifyRefer=findViewById(R.id.btn_verify);
-        tvTitle.setText("Verify First OTP");
+        tvTitle.setText("Verify OTP");
 
 
         baseLyt = findViewById(R.id.otp_base_lyt);

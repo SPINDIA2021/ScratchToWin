@@ -46,6 +46,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     implementation project(':scratchcardlayout')
+    
+    // EasyUpiPayment Library
+    implementation 'dev.shreyaspatil.EasyUpiPayment:EasyUpiPayment:3.0.3'
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.android.support:multidex:1.0.3'
@@ -68,7 +72,10 @@ dependencies {
     implementation 'com.github.aabhasr1:OtpView:v1.1.2'
    // implementation 'cc.cloudist.acplibrary:library:1.2.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation "com.shreyaspatil:EasyUpiPayment:2.0"
+   // implementation "com.shreyaspatil:EasyUpiPayment:2.0"
+
+
+
 
 
     //AD MOB

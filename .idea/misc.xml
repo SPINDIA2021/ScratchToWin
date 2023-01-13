@@ -36,12 +36,13 @@
         <entry key="app/src/main/res/layout/activity_mobile_recharge.xml" value="0.13360323886639677" />
         <entry key="app/src/main/res/layout/activity_payment_success.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_refer.xml" value="0.22864583333333333" />
-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.2296875" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.13306451612903225" />
         <entry key="app/src/main/res/layout/data_list_layout.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/fragment_gold.xml" value="0.22864583333333333" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.12313432835820895" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.14601769911504425" />
         <entry key="app/src/main/res/layout/fragment_mobile_postpaid.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mobile_prepaid.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_otp.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_platinum.xml" value="0.21388888888888888" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_verifyuser.xml" value="0.24427083333333333" />

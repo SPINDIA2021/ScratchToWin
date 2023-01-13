@@ -50,6 +50,7 @@ import com.myapps.onlysratchapp.activity.SilverApplovinActivity;
 import com.myapps.onlysratchapp.activity.SilverInMobiActivity;
 import com.myapps.onlysratchapp.activity.SilverFBActivity;
 import com.myapps.onlysratchapp.adapter.HomeAdapter;
+import com.myapps.onlysratchapp.addMoney.AddMoneyActivity;
 import com.myapps.onlysratchapp.dth.DthRechargeActivity;
 import com.myapps.onlysratchapp.electricityRecharge.ElectricityRechargeActivity;
 import com.myapps.onlysratchapp.landlineRecharge.LandLineRechargeActivity;
@@ -197,6 +198,12 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
          HomeAdapter adapter=new HomeAdapter(homeResponseArrayList, getActivity(),itemClick);
         recyclerViewHome.setAdapter(adapter);
 
+        String userAmount = Constant.getString(activity, Constant.USER_AMOUNT);
+        if (userAmount.equalsIgnoreCase("")) {
+            userAmount = "0";
+        }
+        text_amount.setText(userAmount);
+
         onClick();
         return view;
     }
@@ -206,7 +213,8 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
         addmoney_lyt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent policyintent = new Intent(activity, AddMoneyActivity.class);
+                startActivity(policyintent);
             }
         });
 

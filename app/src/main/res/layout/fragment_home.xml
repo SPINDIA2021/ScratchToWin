@@ -9,54 +9,56 @@
     tools:context=".fragments.HomeFragment">
 
     <RelativeLayout
+        android:id="@+id/addmoney_lyt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="7dp"
+        android:layout_marginHorizontal="10dp"
         android:background="@drawable/redeem_bg"
         >
+
         <TextView
             android:id="@+id/text_addmoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_4sdp"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:maxLines="1"
-            android:text="ADD MONEY"
             android:layout_centerVertical="true"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-    <LinearLayout
-        android:id="@+id/addmoney_lyt"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/_4sdp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="@dimen/_4sdp"
-        android:paddingStart="@dimen/_6sdp"
-        android:paddingEnd="@dimen/_6sdp">
-
-        <ImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_gravity="center"
-            android:src="@drawable/coin" />
-
-        <TextView
-            android:id="@+id/text_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_4sdp"
-            android:layout_marginEnd="@dimen/_4sdp"
+            android:layout_marginLeft="10dp"
             android:maxLines="1"
             android:text="ADD MONEY"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
-    </LinearLayout>
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/_4sdp"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp">
+
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/coin" />
+
+            <TextView
+                android:id="@+id/text_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:maxLines="1"
+                android:text="ADD MONEY"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+        </LinearLayout>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"

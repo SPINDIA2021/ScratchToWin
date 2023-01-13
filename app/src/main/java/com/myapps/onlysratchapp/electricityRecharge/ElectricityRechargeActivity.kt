@@ -267,11 +267,12 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
             val jsonObject = JSONObject(result)
             val status = jsonObject.getString(AppConstants.STATUS)
             Log.e(AppConstants.STATUS, status)
+            Log.v("ElectricityPrep","ELECTRICITY_OPERATOR: STATUS "+status)
             if (status.contains("true")) {
                 progress_bar.visibility = View.INVISIBLE
 
                 val cast = jsonObject.getJSONArray("result")
-
+                Log.v("ElectricityPrep","ELECTRICITY_OPERATOR: result "+cast)
                 for (i in 0 until cast.length()) {
                     val notifyObjJson = cast.getJSONObject(i)
                     val operatorname = notifyObjJson.getString("operatorname")
@@ -298,6 +299,7 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
             val jsonObject = JSONObject(result)
             val status = jsonObject.getString(AppConstants.STATUS)
             Log.e(AppConstants.STATUS, status)
+            Log.v("ElectricityPrep","CHECKSAMERECHARGE_API: STATUS "+status)
             //Log.e(AppConstants.MESSAGE_CODE, messageCode);
             if (status.contains("true")) {
                 progress_bar.visibility = View.INVISIBLE
@@ -313,6 +315,7 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
         }
         if (flag.equals(RECHARGE_API)) {
             Log.e("RECHARGE_API", result)
+            Log.v("ElectricityPrep","RECHARGE_API: result "+result)
             val jsonObject = JSONObject(result)
             val status = jsonObject.getString(AppConstants.STATUS)
             Log.e(AppConstants.STATUS, status)
@@ -333,6 +336,9 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
         }
         if (flag.equals(GET_BILL_DETAILS)) {
             Log.e("GET_BILL_DETAILS", result)
+            Log.v("ElectricityPrep","GET_BILL_DETAILS: result "+result)
+            toast(result)
+            progress_bar.visibility = View.INVISIBLE
             val jsonObject = JSONObject(result)
             val status = jsonObject.getString(AppConstants.STATUS)
             Log.e(AppConstants.STATUS, status)
@@ -361,6 +367,7 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
         if (flag.equals(CIRCLE)) {
             circleListModelArrayList.clear()
             Log.e("CIRCLE", result)
+            Log.v("ElectricityPrep","CIRCLE: result "+result)
             val jsonObject = JSONObject(result)
             val status = jsonObject.getString(AppConstants.STATUS)
             Log.e(AppConstants.STATUS, status)
@@ -387,6 +394,7 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
 
         if (flag.equals(CONFIRMPIN_API)) {
             Log.e("CONFIRMPIN_API", result)
+            Log.v("ElectricityPrep","CONFIRMPIN_API: result "+result)
             val jsonObject = JSONObject(result)
             val status = jsonObject.getString(AppConstants.STATUS)
             val messageCode = jsonObject.getString(AppConstants.MESSAGE)
