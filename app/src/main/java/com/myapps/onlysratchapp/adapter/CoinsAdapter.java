@@ -40,13 +40,13 @@ public class CoinsAdapter extends RecyclerView.Adapter<CoinsAdapter.MyHolder> {
 
         if (model.getCredit().equals("0"))
         {
-            myHolder.crdt_textView.setText("Debit:  Rs. "+model.getDebit());
+            myHolder.crdt_textView.setText("Debit:  Chetak Coins "+model.getDebit());
         }else if (model.getDebit().equals("0"))
         {
-            myHolder.crdt_textView.setText("Credit:  Rs. "+model.getCredit());
+            myHolder.crdt_textView.setText("Credit:  Chetak Coins "+model.getCredit());
         }
 
-        myHolder.currbal_textView.setText("Current Balance:  Rs. "+model.getCurBalance());
+        myHolder.currbal_textView.setText("Current Balance:  Chetak Coins "+model.getCurBalance());
         myHolder.datetime_textView.setText("Date: "+model.getCreateat());
         myHolder.remark_textView.setText("Remark: "+model.getNarration());
 

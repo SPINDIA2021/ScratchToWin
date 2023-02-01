@@ -218,6 +218,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 break;
 
+           /* case R.id.nav_matrixmlm:
+                try {
+                    Intent policyintent = new Intent(activity, MatrixMlmViewActivity.class);
+                    startActivity(policyintent);
+                    overridePendingTransition(R.anim.enter, R.anim.exit);
+                } catch (Exception e) {
+                    Constant.showToastMessage(activity, e.getMessage());
+                }
+
+                break;
+            case R.id.nav_binarymlm:
+                try {
+                    Intent policyintent = new Intent(activity, BinaryMlmViewActivity.class);
+                    startActivity(policyintent);
+                    overridePendingTransition(R.anim.enter, R.anim.exit);
+                } catch (Exception e) {
+                    Constant.showToastMessage(activity, e.getMessage());
+                }
+
+                break;*/
+
             case R.id.nav_wallethistory:
                 try {
                     Intent policyintent = new Intent(activity, WalletActivity.class);
@@ -394,6 +415,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                Constant.setString(MainActivity.this, Constant.USER_REFFER_CODE,"");
+                Constant.setString(MainActivity.this, Constant.USER_ID,"");
+                Constant.setString(MainActivity.this, Constant.FIRST_NAME,"");
+                Constant.setString(MainActivity.this, Constant.USER_NUMBER,"");
+                Constant.setString(MainActivity.this, Constant.USER_AMOUNT,"");
+                Constant.setString(MainActivity.this, Constant.TOKEN,"");
+                Constant.setString(MainActivity.this, Constant.USER_POINTS,"0");
+                Constant.setString(MainActivity.this, Constant.USER_AMOUNT,"0");
+
                 Constant.setString(MainActivity.this, Constant.IS_LOGIN, "false");//clear all data
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

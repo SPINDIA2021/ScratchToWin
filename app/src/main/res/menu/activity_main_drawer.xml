@@ -29,6 +29,16 @@
             android:icon="@drawable/coins"
             android:title="Points History" />
 
+        <!--<item
+            android:id="@+id/nav_binarymlm"
+            android:icon="@drawable/ic_trophy"
+            android:title="Binary MLM" />
+
+        <item
+            android:id="@+id/nav_matrixmlm"
+            android:icon="@drawable/ic_trophy"
+            android:title="Matrix MLM" />
+-->
         <item
             android:id="@+id/nav_passbook"
             android:icon="@drawable/passbook"

@@ -2,6 +2,7 @@ package com.myapps.onlysratchapp.data.remote;
 
 
 
+import com.myapps.onlysratchapp.addMoney.UPIResponse;
 import com.myapps.onlysratchapp.data.DataSource;
 import com.myapps.onlysratchapp.models.AdKeysResponse;
 import com.myapps.onlysratchapp.models.CoinsResponse;
@@ -19,6 +20,8 @@ import com.myapps.onlysratchapp.network.IApi;
 import com.myapps.onlysratchapp.network.NetworkCall;
 import com.myapps.onlysratchapp.network.ServiceCallBack;
 import com.myapps.onlysratchapp.passbook.PassbookResponse;
+import com.myapps.onlysratchapp.transferPoints.TRansferUserResponse;
+import com.myapps.onlysratchapp.transferPoints.TransferPointsResponse;
 
 import java.util.ArrayList;
 
@@ -153,13 +156,13 @@ public class RemoteDataSource implements DataSource {
 
             RequestBody mobile1 = RequestBody.create(MediaType.parse("text/plain"), mobile);
             RequestBody referalcode1 = RequestBody.create(MediaType.parse("text/plain"), referalcode);
-            RequestBody userflag1 = RequestBody.create(MediaType.parse("text/plain"), userflag);
+            //  RequestBody userflag1 = RequestBody.create(MediaType.parse("text/plain"), userflag);
             RequestBody amount1 = RequestBody.create(MediaType.parse("text/plain"), amount);
             RequestBody upiid1 = RequestBody.create(MediaType.parse("text/plain"), upiid);
             RequestBody name1 = RequestBody.create(MediaType.parse("text/plain"), name);
 
 
-            Call<BaseResponse<WithdrawalResponse>> responceCall = networkCall.getRetrofit(true, true).withdrawal(mobile1,referalcode1,userflag1,amount1,upiid1,name1);
+            Call<BaseResponse<WithdrawalResponse>> responceCall = networkCall.getRetrofit(true, true).withdrawal(mobile1,referalcode1,amount1,upiid1,name1);
             networkCall.setServiceCallBack(myAppointmentPresenter);
             networkCall.setRequestTag(IApi.COMMON_TAG6);
             responceCall.enqueue(networkCall.requestCallback());
@@ -210,8 +213,9 @@ public class RemoteDataSource implements DataSource {
 
 
             RequestBody referalcode1 = RequestBody.create(MediaType.parse("text/plain"), referalcode);
+            RequestBody for1 = RequestBody.create(MediaType.parse("text/plain"), "withdrawal");
 
-            Call<BaseResponse<ArrayList<TransactionResponse>>> responceCall = networkCall.getRetrofit(true, true).getTransactionHistory(referalcode1);
+            Call<BaseResponse<ArrayList<TransactionResponse>>> responceCall = networkCall.getRetrofit(true, true).getTransactionHistory(referalcode1,for1);
             networkCall.setServiceCallBack(myAppointmentPresenter);
             networkCall.setRequestTag(IApi.COMMON_TAG9);
             responceCall.enqueue(networkCall.requestCallback());
@@ -225,7 +229,7 @@ public class RemoteDataSource implements DataSource {
         try{
 
 
-            RequestBody api = RequestBody.create(MediaType.parse("text/plain"), "passbook");
+            RequestBody api = RequestBody.create(MediaType.parse("text/plain"), "wallet");
             RequestBody referalcode1 = RequestBody.create(MediaType.parse("text/plain"), referalcode);
 
             Call<BaseResponse<ArrayList<PassbookResponse>>> responceCall = networkCall.getRetrofit(true, true).getPassbookData(api,referalcode1);
@@ -278,7 +282,7 @@ public class RemoteDataSource implements DataSource {
         try{
 
 
-            RequestBody api = RequestBody.create(MediaType.parse("text/plain"), "coinhistory");
+            RequestBody api = RequestBody.create(MediaType.parse("text/plain"), "coins");
             RequestBody referalcode1 = RequestBody.create(MediaType.parse("text/plain"), referalcode);
 
             Call<BaseResponse<ArrayList<CoinsResponse>>> responceCall = networkCall.getRetrofit(true, true).getCoinsData(api,referalcode1);
@@ -301,6 +305,52 @@ public class RemoteDataSource implements DataSource {
             Call<BaseResponse<ArrayList<LevelResponse>>> responceCall = networkCall.getRetrofit(true, true).getLevelData(api,referalcode1);
             networkCall.setServiceCallBack(myAppointmentPresenter);
             networkCall.setRequestTag(IApi.COMMON_TAG2);
+            responceCall.enqueue(networkCall.requestCallback());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getTransferUser(String mobile, ServiceCallBack myAppointmentPresenter, NetworkCall networkCall) {
+        try{
+
+            RequestBody mobile1 = RequestBody.create(MediaType.parse("text/plain"), mobile);
+
+            Call<BaseResponse<TRansferUserResponse>> responceCall = networkCall.getRetrofit(true, true).getTransferUser(mobile1);
+            networkCall.setServiceCallBack(myAppointmentPresenter);
+            networkCall.setRequestTag(IApi.COMMON_TAG);
+            responceCall.enqueue(networkCall.requestCallback());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void savePointTransfer(String points, String transferTo, String transferFrom, ServiceCallBack myAppointmentPresenter, NetworkCall networkCall) {
+        try{
+
+            RequestBody points1 = RequestBody.create(MediaType.parse("text/plain"), points);
+            RequestBody transferTo1 = RequestBody.create(MediaType.parse("text/plain"), transferTo);
+            RequestBody transferFrom1 = RequestBody.create(MediaType.parse("text/plain"), transferFrom);
+
+            Call<BaseResponse<TransferPointsResponse>> responceCall = networkCall.getRetrofit(true, true).savePointTransfer(points1,transferTo1,transferFrom1);
+            networkCall.setServiceCallBack(myAppointmentPresenter);
+            networkCall.setRequestTag(IApi.COMMON_TAG1);
+            responceCall.enqueue(networkCall.requestCallback());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getUPI(ServiceCallBack myAppointmentPresenter, NetworkCall networkCall) {
+        try{
+
+
+            Call<BaseResponse<UPIResponse>> responceCall = networkCall.getRetrofit(true, true).getUPI();
+            networkCall.setServiceCallBack(myAppointmentPresenter);
+            networkCall.setRequestTag(IApi.COMMON_TAG);
             responceCall.enqueue(networkCall.requestCallback());
         } catch (Exception e) {
             e.printStackTrace();

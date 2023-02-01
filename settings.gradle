@@ -2,9 +2,9 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
-
         mavenCentral()
         maven { url 'https://jitpack.io' }
+
         maven {
             url 'https://android-sdk.is.com/'
         }
@@ -18,7 +18,8 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+  //  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
 
@@ -34,7 +35,13 @@ dependencyResolutionManagement {
             url 'https://artifact.bytedance.com/repository/pangle'
         }
         maven { url 'https://artifacts.applovin.com/android' }
+
+        maven {
+            url "https://maven.google.com"
+        }
+        jcenter()
+        maven { url 'https://jitpack.io' }
     }
 }
 rootProject.name = "ScratchToWin"
-include ':app', ':scratchcardlayout'
+include ':app', ':scratchcardlayout', ':', ':CordovaLib'

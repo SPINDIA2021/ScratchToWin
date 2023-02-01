@@ -157,7 +157,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:inputType="number"
                             android:maxLines="1"
                             android:paddingStart="@dimen/_10sdp"
                             android:textColor="@color/colorPrimaryDark"
@@ -178,7 +177,49 @@
                     android:text="Minimum Amount of - "
                     android:textColor="@color/gray"
                     android:textSize="@dimen/_10sdp" />
+                <RadioGroup
+                    android:id="@+id/radioAppChoice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp">
 
+                    <RadioButton
+                        android:id="@+id/app_default"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Default" />
+
+                    <RadioButton
+                        android:id="@+id/app_amazonpay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AmazonPay" />
+
+                    <RadioButton
+                        android:id="@+id/app_bhim_upi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BHIM UPI" />
+
+                    <RadioButton
+                        android:id="@+id/app_google_pay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Google Pay" />
+
+                    <RadioButton
+                        android:id="@+id/app_phonepe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PhonePe" />
+
+                    <RadioButton
+                        android:id="@+id/app_paytm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PayTm" />
+                </RadioGroup>
                 <RelativeLayout
                     android:visibility="gone"
                     android:layout_width="match_parent"

@@ -17,17 +17,19 @@ import androidx.appcompat.widget.Toolbar
 import com.chartboost.sdk.impl.t
 import com.google.gson.Gson
 import com.myapps.onlysratchapp.R
-import dev.shreyaspatil.easyupipayment.listener.PaymentStatusListener
 import com.myapps.onlysratchapp.addMoney.activities_upi.PaymentSuccess
-import com.myapps.onlysratchapp.addMoney.activities_upi.Singleton2
+
 import com.myapps.onlysratchapp.network_calls.AppApiCalls
 import com.myapps.onlysratchapp.utils.AppCommonMethods
 import com.myapps.onlysratchapp.utils.AppConstants
 import com.myapps.onlysratchapp.utils.Constant
 import com.myapps.onlysratchapp.utils.toast
 import dev.shreyaspatil.easyupipayment.EasyUpiPayment
+import dev.shreyaspatil.easyupipayment.listener.PaymentStatusListener
 import dev.shreyaspatil.easyupipayment.model.PaymentApp
 import dev.shreyaspatil.easyupipayment.model.TransactionDetails
+import dev.shreyaspatil.easyupipayment.model.TransactionStatus
+
 import kotlinx.android.synthetic.main.activity_add_money.*
 
 
@@ -35,18 +37,6 @@ import org.json.JSONObject
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
-/*import com.shreyaspatil.EasyUpiPayment.EasyUpiPayment;
-import com.shreyaspatil.EasyUpiPayment.listener.PaymentStatusListener;
-import com.shreyaspatil.EasyUpiPayment.model.TransactionDetails;*/
-
-lateinit var cus_mobile: String
-var cus_type="retailer"
-var cus_pin=""
-var cus_pass=""
-var cus_id=""
-var cus_name=""
-
-
 
 class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListener ,
     PaymentStatusListener {
@@ -56,7 +46,7 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
     val GETUPIAPI = "GETUPIAPI"
     val UPDATE_BALANCE = "UPDATE_BALANCE"
    // var upi_id: String? = null
-    var upiid: String = "8959525051@ybl"
+    var upiid: String = "mewar@cnrb"
     var minimumamount: String? = null
 
 
@@ -64,6 +54,15 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
     lateinit var responseCode: String
     lateinit var approvalRefNo: String
     lateinit var txnRef: String
+
+    lateinit var cus_mobile: String
+    var cus_type="retailer"
+    var cus_pin=""
+    var cus_pass=""
+    var cus_id=""
+    var cus_name=""
+
+    private lateinit var easyUpiPayment: EasyUpiPayment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,7 +142,7 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
         //   submit = this.findViewById(R.id.btn_submit);
         //et_upi = findViewById<EditText>(R.id.et_upi)
 
-        rlGooglePay.setOnClickListener(View.OnClickListener {
+      /*  rlGooglePay.setOnClickListener(View.OnClickListener {
             if (appInstalledOrNot("com.google.android.apps.nbu.paisa.user", "GOOGLE PAY")) {
                 Startupipayment("com.google.android.apps.nbu.paisa.user")
             }
@@ -162,10 +161,11 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
             if (appInstalledOrNot("in.amazon.mShop.android.shopping", "AMAZON PAY")) {
                 Startupipayment("in.amazon.mShop.android.shopping")
             }
-        })
+        })*/
 
     }
 
+/*
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100) {
@@ -238,8 +238,9 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
         }
     }
 
+*/
 
-    private fun appInstalledOrNot(uri: String, flag: String): Boolean {
+   /* private fun appInstalledOrNot(uri: String, flag: String): Boolean {
         val pm = packageManager
         try {
             pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
@@ -250,8 +251,8 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
             //   Toast.makeText(this@AddMoneyActivity, "App not found", Toast.LENGTH_LONG).show()
         }
         return false
-    }
-
+    }*/
+/*
     private fun Startupipayment(packagename: String) {
         if (!et_ammount.text.toString().isEmpty()) {
 
@@ -300,7 +301,7 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
                 Toast.LENGTH_LONG
             ).show()
         }
-    }
+    }*/
 
     private fun getQueryString(url: String): Map<String, String> {
         val params = url.split("&".toRegex()).toTypedArray()
@@ -313,9 +314,9 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
         }
         return map
     }
-
+/*
     // Make TransactionDetails object from response string
-    private fun getTransactionDetails(response: String): com.myapps.onlysratchapp.addMoney.activities_upi.TransactionDetails {
+    private fun getTransactionDetails(response: String): TransactionDetails {
         val map = getQueryString(response)
         val transactionId = map["txnId"]
         val responseCode = map["responseCode"]
@@ -329,7 +330,7 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
             status,
             transactionRefId
         )
-    }
+    }*/
 
     // Checks whether listener is registered
     private fun isListenerRegistered(): Boolean {
@@ -337,29 +338,22 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
             ?.isListenerRegistered()!!
     }
 
-    private fun callbackOnAppNotFound() {
-        Log.e("AppNotFound", "No UPI app found on device.")
-        if (isListenerRegistered()) {
-            singleton!!.listener!!.onAppNotFound()
-        }
-        finish()
-    }
 
     private fun callbackTransactionSuccess() {
         if (isListenerRegistered()) {
-            singleton!!.listener!!.onTransactionSuccess()
+           // singleton!!.listener!!.onTransactionCompleted()
         }
     }
 
     private fun callbackTransactionSubmitted() {
         if (isListenerRegistered()) {
-            singleton!!.listener!!.onTransactionSubmitted()
+           // singleton!!.listener!!.onTransactionCompleted()
         }
     }
 
     private fun callbackTransactionFailed() {
         if (isListenerRegistered()) {
-            singleton!!.listener!!.onTransactionFailed()
+            singleton!!.listener!!.onTransactionCancelled()
         }
     }
 
@@ -368,7 +362,6 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
             singleton!!.listener!!.onTransactionCancelled()
         }
     }
-
 
     //Api functions
     fun getUpi(
@@ -416,7 +409,7 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
                 for (i in 0 until cast.length()) {
                     val notifyObjJson = cast.getJSONObject(i)
                    // upi_id = notifyObjJson.getString("upi_id")
-                    upiid="8959525051"
+
                     minimumamount = notifyObjJson.getString("minimun_amount")
                     tvMinimumAmount.text =
                         "( Minimum Amount - ₹ " + notifyObjJson.getString("minimun_amount") + ")"
@@ -441,7 +434,7 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
             if (status.contains("true")) {
                 progress_bar.visibility = View.GONE
 
-                val intent = Intent(
+            /*    val intent = Intent(
                     this@AddMoneyActivity,
                     PaymentSuccess::class.java
                 )
@@ -451,7 +444,7 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
                 intent.putExtra("responseCode", responseCode)
                 intent.putExtra("approvalRefNo", approvalRefNo)
                 intent.putExtra("txnRef", txnRef)
-                startActivity(intent)
+                startActivity(intent)*/
 
 
             } else {
@@ -570,6 +563,10 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
         desc: String,
         transactionId: String
     ) {
+
+
+
+/*
         // on below line we are calling an easy payment method and passing
         // all parameters to it such as upi id,name, description and others.
         val paymentApp = PaymentApp.ALL
@@ -587,35 +584,74 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
         easyUpiPayment.startPayment()
         // on below line we are calling a set payment
         // status listener method to call other payment methods.
-        easyUpiPayment.setPaymentStatusListener(this)
+        easyUpiPayment.setPaymentStatusListener(this)*/
+
+
+
+
+        val payeeVpa = "8959525051@ybl"
+        val payeeName = name
+        val transactionId = transactionId
+        val transactionRefId = transactionId
+        /*val payeeMerchantCode = field_payee_merchant_code.text.toString()*/
+        val description = desc
+        val amount = amount
+        val paymentAppChoice = radioAppChoice
+
+        val paymentApp = when (paymentAppChoice.checkedRadioButtonId) {
+            R.id.app_default -> PaymentApp.ALL
+            R.id.app_amazonpay -> PaymentApp.AMAZON_PAY
+            R.id.app_bhim_upi -> PaymentApp.BHIM_UPI
+            R.id.app_google_pay -> PaymentApp.GOOGLE_PAY
+            R.id.app_phonepe -> PaymentApp.PHONE_PE
+            R.id.app_paytm -> PaymentApp.PAYTM
+            else -> throw IllegalStateException("Unexpected value: " + paymentAppChoice.id)
+        }
+
+        try {
+            // START PAYMENT INITIALIZATION
+            easyUpiPayment = EasyUpiPayment(this) {
+                this.paymentApp = paymentApp
+                this.payeeVpa = payeeVpa
+                this.payeeName = payeeName
+                this.transactionId = transactionId
+                this.transactionRefId = transactionRefId
+                this.payeeMerchantCode = payeeMerchantCode
+                this.description = description
+                this.amount = amount
+            }
+            // END INITIALIZATION
+
+            // Register Listener for Events
+            easyUpiPayment.setPaymentStatusListener(this)
+
+            // Start payment / transaction
+            easyUpiPayment.startPayment()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            toast("Error: ${e.message}")
+        }
     }
 
 
 
 
 
-    fun onTransactionSuccess() {
-        // this method is called when transaction is successful and we are displaying a toast message.
-        Toast.makeText(this, "Transaction successfully completed..", Toast.LENGTH_SHORT).show()
+
+
+
+
+    fun onAppNotFound() {
+        // this method is called when the users device is not having any app installed for making payment.
+        Toast.makeText(this, "No app found for making transaction..", Toast.LENGTH_SHORT).show()
     }
 
-    fun onTransactionSubmitted() {
-        // this method is called when transaction is done
-        // but it may be successful or failure.
-        Log.e("TAG", "TRANSACTION SUBMIT")
-    }
 
-    fun onTransactionFailed() {
-        // this method is called when transaction is failure.
-        Toast.makeText(this, "Failed to complete transaction", Toast.LENGTH_SHORT).show()
-    }
 
-    override fun onTransactionCancelled() {
-        // this method is called when transaction is cancelled.
-        Toast.makeText(this, "Transaction cancelled..", Toast.LENGTH_SHORT).show()
-    }
 
     override fun onTransactionCompleted(transactionDetails: TransactionDetails) {
+        // Transaction Completed
+        Log.d("TransactionDetails", transactionDetails.toString())
         try {
             // Get transactions details from response.
 
@@ -669,10 +705,40 @@ class AddMoneyActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListe
             callbackTransactionCancelled()
             callbackTransactionFailed()
         }
+
+        when (transactionDetails.transactionStatus) {
+            TransactionStatus.SUCCESS -> onTransactionSuccess()
+            TransactionStatus.FAILURE -> onTransactionFailed()
+            TransactionStatus.SUBMITTED -> onTransactionSubmitted()
+        }
     }
 
-    fun onAppNotFound() {
-        // this method is called when the users device is not having any app installed for making payment.
-        Toast.makeText(this, "No app found for making transaction..", Toast.LENGTH_SHORT).show()
+    override fun onTransactionCancelled() {
+        // Payment Cancelled by User
+        toast("Cancelled by user")
+       // Toast.makeText(this, "Transaction cancelled..", Toast.LENGTH_SHORT).show()
     }
+
+    private fun onTransactionSuccess() {
+        // Payment Success
+        toast("Success")
+
+    }
+
+    private fun onTransactionSubmitted() {
+        // Payment Pending
+        toast("Pending | Submitted")
+
+    }
+
+    private fun onTransactionFailed() {
+        // Payment Failed
+        toast("Failed")
+
+    }
+
+    private fun toast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
 }

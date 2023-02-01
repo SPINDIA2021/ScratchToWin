@@ -5,6 +5,13 @@ buildscript {
         gms_version = '4.3.14'
 
     }
+
+    project.ext {
+        defaultBuildToolsVersion="29.0.2" //String
+        defaultMinSdkVersion=19 //Integer - Minimum requirement is Android 4.4
+        defaultTargetSdkVersion=29 //Integer - We ALWAYS target the latest by default
+        defaultCompileSdkVersion=29 //Integer - We ALWAYS compile with the latest by default
+    }
 }
 
 plugins {

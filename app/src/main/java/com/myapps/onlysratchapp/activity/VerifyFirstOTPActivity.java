@@ -67,7 +67,6 @@ public class VerifyFirstOTPActivity extends AppCompatActivity implements  LoginC
         new LoginPresenter(Injection.provideLoginRepository(this), this);
 
 
-
         verify_btn = findViewById(R.id.verify_btn);
         referEditText = findViewById(R.id.refer_edit_text);
         otp_edit_text = findViewById(R.id.otpEditText);

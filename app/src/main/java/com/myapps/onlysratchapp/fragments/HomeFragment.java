@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,12 +53,19 @@ import com.myapps.onlysratchapp.activity.SilverInMobiActivity;
 import com.myapps.onlysratchapp.activity.SilverFBActivity;
 import com.myapps.onlysratchapp.adapter.HomeAdapter;
 import com.myapps.onlysratchapp.addMoney.AddMoneyActivity;
+import com.myapps.onlysratchapp.addMoney.AddMoneyActivityNew;
+import com.myapps.onlysratchapp.candycrush.CandyMainActivity;
 import com.myapps.onlysratchapp.dth.DthRechargeActivity;
 import com.myapps.onlysratchapp.electricityRecharge.ElectricityRechargeActivity;
+import com.myapps.onlysratchapp.kotak.KotaKInnerActivity;
+import com.myapps.onlysratchapp.kotak.KotakWebviewActivity;
 import com.myapps.onlysratchapp.landlineRecharge.LandLineRechargeActivity;
+import com.myapps.onlysratchapp.ludo.LudoMainActivity;
 import com.myapps.onlysratchapp.mobileRecharge.MobileRechargeActivity;
 import com.myapps.onlysratchapp.models.HomeResponse;
 import com.myapps.onlysratchapp.network_calls.UserModel;
+import com.myapps.onlysratchapp.puzzle.PuzzleMainActivity;
+import com.myapps.onlysratchapp.transferPoints.TransferPointsActivity;
 import com.myapps.onlysratchapp.utils.AppCommonMethods;
 import com.myapps.onlysratchapp.utils.AppConstants;
 import com.myapps.onlysratchapp.utils.Constant;
@@ -84,7 +93,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
     String service = "";
     ArrayList<HomeResponse> homeResponseArrayList=new ArrayList<>();
 
-    RelativeLayout addmoney_lyt;
+    RelativeLayout addmoney_lyt,transferPtLay, layKotak;
 
     String serviceName = "";
 
@@ -94,6 +103,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
     String cus_pass="";
     String cus_id="";
 
+    WebView webView;
     public HomeFragment() {
 
     }
@@ -138,7 +148,12 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
 
         recyclerViewHome = view.findViewById(R.id.recyclerview);
         addmoney_lyt=view.findViewById(R.id.addmoney_lyt);
+        transferPtLay=view.findViewById(R.id.transferamt_lyt);
         text_amount=view.findViewById(R.id.text_amount);
+        layKotak=view.findViewById(R.id.lay_kotak);
+        webView=view.findViewById(R.id.mlm_webview);
+
+
      /*   walletCardView = view.findViewById(R.id.walletCardView);
         dailyCheckIn = view.findViewById(R.id.daily_check_in);
         silverCardView = view.findViewById(R.id.silverCardView);
@@ -148,7 +163,10 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
         platinumCardView1 = view.findViewById(R.id.platinumCardView1);
         goldCardView1 = view.findViewById(R.id.goldCardView1);
         levelCardView=view.findViewById(R.id.card_level);*/
-
+        homeResponseArrayList.add(new HomeResponse(R.drawable.smartphone, "Mobile Recharge"));
+        homeResponseArrayList.add(new HomeResponse(R.drawable.dth, "DTH Recharge"));
+        homeResponseArrayList.add(new HomeResponse(R.drawable.electricity, "Services Payment"));
+        homeResponseArrayList.add(new HomeResponse(R.drawable.landline, "Landline Recharge"));
         homeResponseArrayList.add(new HomeResponse(R.drawable.level, "Levels"));
         homeResponseArrayList.add(new HomeResponse(R.drawable.silver_scratch, "Scratch Task 1 AD"));
         homeResponseArrayList.add(new HomeResponse(R.drawable.platinum_scratch, "Scratch Task 2 AD"));
@@ -189,10 +207,9 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
         homeResponseArrayList.add(new HomeResponse(R.drawable.wallet, "Wallet"));
         homeResponseArrayList.add(new HomeResponse(R.drawable.refer_and_earn, "Refer and Earn"));
         homeResponseArrayList.add(new HomeResponse(R.drawable.daily_checkin, "Daily Checkin"));
-        homeResponseArrayList.add(new HomeResponse(R.drawable.smartphone, "Mobile Recharge"));
-        homeResponseArrayList.add(new HomeResponse(R.drawable.dth, "DTH Recharge"));
-        homeResponseArrayList.add(new HomeResponse(R.drawable.electricity, "Electricity Recharge"));
-        homeResponseArrayList.add(new HomeResponse(R.drawable.landline, "Landline Recharge"));
+        homeResponseArrayList.add(new HomeResponse(R.drawable.ludo, "LUDO"));
+        homeResponseArrayList.add(new HomeResponse(R.drawable.puzzle, "PUZZLE"));
+        homeResponseArrayList.add(new HomeResponse(R.drawable.candy, "Candy Crush"));
 
         recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(),2));
          HomeAdapter adapter=new HomeAdapter(homeResponseArrayList, getActivity(),itemClick);
@@ -204,16 +221,76 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
         }
         text_amount.setText(userAmount);
 
+
+        getBalanceApi(cus_mobile);
+
         onClick();
         return view;
     }
 
+    private void getBalanceApi(String cus_mobile) {
+
+        if (new AppCommonMethods(getActivity()).isNetworkAvailable()) {
+            AppApiCalls mAPIcall = new AppApiCalls(
+                    requireContext(),
+                    AppConstants.BALANCE_API,
+                    this
+            );
+            mAPIcall.getBalance(cus_mobile);
+
+        } else {
+            Toast.makeText(activity, getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+
+
+
     private void onClick() {
+
+        layKotak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent policyintent = new Intent(activity, KotakWebviewActivity.class);
+                startActivity(policyintent);*/
+                webView.loadUrl("https://inr.deals/nLiDpx");
+                //webView.loadUrl("https://www.kotak811.com/open-zero-balance-savings-account?source=811NewILSIX&banner=ILAFSix&pubild=normal811_3001_61213");
+
+                webView.getSettings().setJavaScriptEnabled(true);
+                webView.setInitialScale(1);
+                webView.getSettings().setLoadWithOverviewMode(true);
+                webView.getSettings().setUseWideViewPort(true);
+                webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+                webView.setScrollbarFadingEnabled(false);
+                webView.setBackgroundColor(Color.TRANSPARENT);
+                webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+
+
+               /* webView.setWebViewClient(new WebViewClient() {
+                    public boolean shouldOverrideUrlLoading(WebView view, String url){
+                        // do your handling codes here, which url is the requested url
+                        // probably you need to open that url rather than redirect:
+                        view.loadUrl(url);
+                        return false; // then it is not handled by default action
+                    }
+                });*/
+            }
+        });
+
 
         addmoney_lyt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent policyintent = new Intent(activity, AddMoneyActivity.class);
+                Intent policyintent = new Intent(activity, AddMoneyActivityNew.class);
+                startActivity(policyintent);
+            }
+        });
+
+        transferPtLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent policyintent = new Intent(activity, TransferPointsActivity.class);
                 startActivity(policyintent);
             }
         });
@@ -430,6 +507,28 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
 
             if (i==0)
             {
+                Intent intent = new Intent(getActivity(), MobileRechargeActivity.class);
+                startActivity(intent);
+              /*  service = "recharge_service";
+                getServiceStatus(cus_id, "recharge_service");*/
+            }else if (i==1)
+            {
+                Intent intent = new Intent(getActivity(), DthRechargeActivity.class);
+                startActivity(intent);
+            }
+            else if (i==2)
+            {
+                Intent intent = new Intent(getActivity(), ElectricityRechargeActivity.class);
+                startActivity(intent);
+              /*  service = "bill_service";
+                getServiceStatus(cus_id, "bill_service");*/
+            } else if (i==3)
+            {
+                Intent intent = new Intent(getActivity(), LandLineRechargeActivity.class);
+                startActivity(intent);
+            }
+            else  if (i==4)
+            {
                 try {
                     Intent policyintent = new Intent(activity, LevelActivity.class);
                     policyintent.putExtra("type", "wallet");
@@ -437,7 +536,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if(i==1)
+            }else if(i==5)
             {
                 try {
                     Intent policyintent = new Intent(activity, SilverAdMobActivity.class);
@@ -445,7 +544,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==2)
+            }else if (i==6)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -455,7 +554,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==3)
+            }else if (i==7)
             {
                 try {
                     Intent policyintent = new Intent(activity, GoldActivity.class);
@@ -463,7 +562,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==4)
+            }else if (i==8)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -472,7 +571,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==5)
+            }else if (i==9)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -482,7 +581,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==6)
+            }else if (i==10)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -491,7 +590,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==7)
+            }else if (i==11)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -500,7 +599,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==8)
+            }else if (i==12)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -510,7 +609,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==9)
+            }else if (i==13)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -519,7 +618,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==10)
+            }else if (i==14)
             {
                 try {
                     Intent policyintent = new Intent(activity, SilverFBActivity.class);
@@ -527,7 +626,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==11)
+            }else if (i==15)
             {
                 try {
                     Intent policyintent = new Intent(activity, PlatinumFBActivity.class);
@@ -536,7 +635,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==12)
+            }else if (i==16)
             {
                 try {
                     Intent policyintent = new Intent(activity, GoldFBActivity.class);
@@ -544,7 +643,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==13)
+            }else if (i==17)
             {
                 try {
                     Intent policyintent = new Intent(activity, SilverAdColonyActivity.class);
@@ -552,7 +651,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==14)
+            }else if (i==18)
             {
                 try {
                     Intent policyintent = new Intent(activity, PlatinumAdColonyActivity.class);
@@ -561,7 +660,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==15)
+            }else if (i==19)
             {
                 try {
                     Intent policyintent = new Intent(activity, GoldAdColonyActivity.class);
@@ -569,7 +668,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==16)
+            }else if (i==20)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -578,7 +677,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==17)
+            }else if (i==21)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -588,7 +687,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==18)
+            }else if (i==22)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -597,7 +696,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==19)
+            }else if (i==23)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -606,7 +705,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==20)
+            }else if (i==24)
             {
                try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -616,7 +715,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==21)
+            }else if (i==25)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -625,7 +724,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==22)
+            }else if (i==26)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -634,7 +733,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==23)
+            }else if (i==27)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -644,7 +743,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==24)
+            }else if (i==28)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -653,7 +752,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==25)
+            }else if (i==29)
             {
                 try {
                     Intent policyintent = new Intent(activity, SilverInMobiActivity.class);
@@ -662,7 +761,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==26)
+            }else if (i==30)
             {
                 try {
                     Intent policyintent = new Intent(activity, PlatinumInmobiActivity.class);
@@ -672,7 +771,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==27)
+            }else if (i==31)
             {
                 try {
                     Intent policyintent = new Intent(activity, GoldInmobiActivity.class);
@@ -681,7 +780,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==28)
+            }else if (i==32)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -690,7 +789,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==29)
+            }else if (i==33)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -700,7 +799,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==30)
+            }else if (i==34)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -709,7 +808,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==31)
+            }else if (i==35)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -718,7 +817,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==32)
+            }else if (i==36)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -728,7 +827,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==33)
+            }else if (i==37)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -737,7 +836,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==34)
+            }else if (i==38)
             {
                 try {
                     Intent policyintent = new Intent(activity, SilverApplovinActivity.class);
@@ -746,7 +845,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==35)
+            }else if (i==39)
             {
                 try {
                     Intent policyintent = new Intent(activity, PlatinumAppLovinActivity.class);
@@ -756,7 +855,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                     Constant.showToastMessage(activity, e.getMessage());
                 }
 
-            }else if (i==36)
+            }else if (i==40)
             {
                 try {
                     Intent policyintent = new Intent(activity, GoldAppLovinActivity.class);
@@ -765,7 +864,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==37)
+            }else if (i==41)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -774,7 +873,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==38)
+            }else if (i==42)
             {
                 try {
                     Intent policyintent = new Intent(activity, ReferActivity.class);
@@ -783,30 +882,33 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());
                 }
-            }else if (i==39)
+            }else if (i==43)
             {
                checkDaily();
-            }else if (i==40)
+            }else if (i==44)
             {
-                Intent intent = new Intent(getActivity(), MobileRechargeActivity.class);
-                startActivity(intent);
-              /*  service = "recharge_service";
-                getServiceStatus(cus_id, "recharge_service");*/
-            }else if (i==41)
+                try {
+                    Intent policyintent = new Intent(activity, LudoMainActivity.class);
+                    startActivity(policyintent);
+                } catch (Exception e) {
+                    Constant.showToastMessage(activity, e.getMessage());
+                }
+            }else if (i==45)
             {
-                Intent intent = new Intent(getActivity(), DthRechargeActivity.class);
-                startActivity(intent);
-            }
-            else if (i==42)
+                try {
+                    Intent policyintent = new Intent(activity, PuzzleMainActivity.class);
+                    startActivity(policyintent);
+                } catch (Exception e) {
+                    Constant.showToastMessage(activity, e.getMessage());
+                }
+            }else if (i==46)
             {
-                Intent intent = new Intent(getActivity(), ElectricityRechargeActivity.class);
-                startActivity(intent);
-              /*  service = "bill_service";
-                getServiceStatus(cus_id, "bill_service");*/
-            } else if (i==43)
-            {
-                Intent intent = new Intent(getActivity(), LandLineRechargeActivity.class);
-                startActivity(intent);
+                try {
+                    Intent policyintent = new Intent(activity, CandyMainActivity.class);
+                    startActivity(policyintent);
+                } catch (Exception e) {
+                    Constant.showToastMessage(activity, e.getMessage());
+                }
             }
         }
     };
@@ -816,7 +918,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
         String appSignature = ids[1];
         Chartboost.startWithAppId(getActivity(), appId, appSignature, startError -> {
             if (startError == null) {
-                Toast.makeText(getContext(), "SDK is initialized", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "SDK is initialized", Toast.LENGTH_SHORT).show();
                // displayGDPRConsentInLogs();
             } else {
                 Toast.makeText(getContext(), "SDK initialized with error: "+startError.getCode().name(), Toast.LENGTH_SHORT).show();
@@ -865,6 +967,37 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
 
     @Override
     public void onAPICallCompleteListner(@Nullable Object item, @Nullable String flag, @NonNull String result) throws JSONException {
+
+        if (flag.equals(AppConstants.BALANCE_API)) {
+            Log.e(AppConstants.BALANCE_API, result);
+            Log.v("MobPrep","BALANCE_API: "+result);
+            JSONObject jsonObject = new JSONObject(result);
+            String status = jsonObject.getString(AppConstants.STATUS);
+            String messageCode = jsonObject.getString(AppConstants.MESSAGE);
+
+            //   val token = jsonObject.getString(AppConstants.TOKEN)
+            Log.e(AppConstants.STATUS, status);
+            Log.e(AppConstants.MESSAGE, messageCode);
+            Log.v("MobPrep","BALANCE_API STATUS: "+status);
+            Log.v("MobPrep","BALANCE_API MESSAGE: "+messageCode);
+            if (status.contains(AppConstants.TRUE)) {
+
+                text_amount.setText(getString(R.string.Rupee)+jsonObject.getString(AppConstants.WALLETBALANCE));
+
+                /* tvAepsBalance.text =
+                     "${getString(R.string.Rupee)} ${jsonObject.getString(AEPSBALANCE)}"*/
+
+
+            } else {
+
+                if (messageCode.equals(getString(R.string.error_expired_token))) {
+                   //AppCommonMethods.logoutOnExpiredDialog(requireContext())
+                } else {
+                   // requireContext().toast(messageCode.trim())
+                }
+            }
+        }
+
         if (flag.equals("SERVICE_STATUS")) {
             Log.e("SERVICE_STATUS", result);
             JSONObject jsonObject = new JSONObject(result);

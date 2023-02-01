@@ -8,8 +8,10 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -53,6 +55,9 @@ class LandLineRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompl
     var operator_code: String = ""
     lateinit var dialog: Dialog
 
+    private var toolbar: Toolbar? = null
+    private var points_textView: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -62,6 +67,26 @@ class LandLineRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompl
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
         setContentView(R.layout.activity_land_line_recharge)
+
+
+        toolbar = findViewById(R.id.toolbar)
+
+
+
+        try {
+            (this as AppCompatActivity).setSupportActionBar(toolbar)
+            (this as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(true)
+            (this as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            val titleText: TextView = toolbar!!.findViewById<TextView>(R.id.toolbarText)
+            titleText.text = "Landline Recharge"
+            points_textView = toolbar!!.findViewById<TextView>(R.id.points_text_in_toolbar)
+            setPointsText()
+            toolbar!!.setNavigationOnClickListener(View.OnClickListener { onBackPressed() })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
 
         cus_mobile = Constant.getString(this, Constant.USER_NUMBER)
         cus_id = Constant.getString(this, Constant.USER_ID)
@@ -447,4 +472,13 @@ class LandLineRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompl
         alert11.show()
     }
 
+    private fun setPointsText() {
+        if (points_textView != null) {
+            var userPoints = Constant.getString(this, Constant.USER_POINTS)
+            if (userPoints.equals("", ignoreCase = true)) {
+                userPoints = "0"
+            }
+            points_textView!!.text = userPoints
+        }
+    }
 }

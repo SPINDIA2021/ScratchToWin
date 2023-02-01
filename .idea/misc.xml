@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../.gradle/caches/transforms-3/348770b33bd18f85320df31893d20f98/transformed/jetified-ads-2.6.8.473/res/drawable/apnxt_ads_rating_bar.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable-hdpi/ic_svg_landline_recharge.xml" value="0.1245" />
+        <entry key="app/src/main/res/drawable/background_spinner_item.xml" value="0.115" />
         <entry key="app/src/main/res/drawable/bg_bottom_sheet.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/bg_buttons.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/bg_circle_upi.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/bg_curved_white_shape.xml" value="0.1245" />
+        <entry key="app/src/main/res/drawable/bg_edit.xml" value="0.115" />
         <entry key="app/src/main/res/drawable/bg_general.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/bg_leftcurved.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/bg_leftcurved_dispute.xml" value="0.1245" />
@@ -25,33 +28,48 @@
         <entry key="app/src/main/res/drawable/ic_svg_dth_recharge.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/ic_svg_mobile_recharge.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/ic_wallet_colored_hd_svg.xml" value="0.1245" />
+        <entry key="app/src/main/res/drawable/loading_screen.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/progress_icon.xml" value="0.1245" />
+        <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.1" />
         <entry key="app/src/main/res/font/belgrano.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_add_money.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_all_recharge_reports.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_candymain.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_dth_recharge.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_electricity_recharge.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/layout/activity_electricity_recharge.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_kotak.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_land_line_recharge.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_ludomain.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/activity_main_puzzle.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/activity_mlm.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/activity_mobile_recharge.xml" value="0.13360323886639677" />
         <entry key="app/src/main/res/layout/activity_payment_success.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_policy.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/activity_refer.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.13306451612903225" />
+        <entry key="app/src/main/res/layout/activity_transferpoints.xml" value="0.30678466076696165" />
         <entry key="app/src/main/res/layout/data_list_layout.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/fragment_gold.xml" value="0.22864583333333333" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.14601769911504425" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/fragment_mobile_postpaid.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_mobile_prepaid.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_otp.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_platinum.xml" value="0.21388888888888888" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_verifyuser.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/fragment_wallet.xml" value="0.1111111111111111" />
         <entry key="app/src/main/res/layout/layout_dialog_dthinfo.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/layout_dialog_electricitybill.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_dialog_offers.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/layout_list_bottomsheet.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/layout/layout_list_electircity_bottomsheet.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_list_operators.xml" value="0.22864583333333333" />
         <entry key="app/src/main/res/layout/layout_recharge_history.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/privacy_policy.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/row_auto.xml" value="0.24270833333333333" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.13306451612903225" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />

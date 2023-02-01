@@ -120,9 +120,6 @@ public class GoldActivity extends AppCompatActivity implements ScratchListener, 
         scrollView = findViewById(R.id.scroll);
 
 
-
-
-
         new LoginPresenter(Injection.provideLoginRepository(this), this);
         try {
             ((AppCompatActivity) this).setSupportActionBar(toolbar);

@@ -15,6 +15,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -618,7 +619,7 @@ public class GoldUnityFragment extends Fragment implements ScratchListener, Logi
 
     @Override
     public void saveCoinsResponse(String message) {
-        //Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
     }
 
     @Override

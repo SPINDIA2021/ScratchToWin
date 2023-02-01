@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class VerifyMobileResponse {
+
     @SerializedName("id")
     @Expose
     private String id;
@@ -30,7 +31,7 @@ public class VerifyMobileResponse {
     private String password;
     @SerializedName("image")
     @Expose
-    private String image;
+    private Object image;
     @SerializedName("balance")
     @Expose
     private String balance;
@@ -67,12 +68,21 @@ public class VerifyMobileResponse {
     @SerializedName("city")
     @Expose
     private String city;
+    @SerializedName("deviceid")
+    @Expose
+    private String deviceid;
+    @SerializedName("devicename")
+    @Expose
+    private String devicename;
     @SerializedName("newuser")
     @Expose
     private String newuser;
     @SerializedName("userflag")
     @Expose
     private String userflag;
+    @SerializedName("createat")
+    @Expose
+    private String createat;
 
     public String getId() {
         return id;
@@ -138,11 +148,11 @@ public class VerifyMobileResponse {
         this.password = password;
     }
 
-    public String getImage() {
+    public Object getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Object image) {
         this.image = image;
     }
 
@@ -242,6 +252,22 @@ public class VerifyMobileResponse {
         this.city = city;
     }
 
+    public String getDeviceid() {
+        return deviceid;
+    }
+
+    public void setDeviceid(String deviceid) {
+        this.deviceid = deviceid;
+    }
+
+    public String getDevicename() {
+        return devicename;
+    }
+
+    public void setDevicename(String devicename) {
+        this.devicename = devicename;
+    }
+
     public String getNewuser() {
         return newuser;
     }
@@ -256,6 +282,14 @@ public class VerifyMobileResponse {
 
     public void setUserflag(String userflag) {
         this.userflag = userflag;
+    }
+
+    public String getCreateat() {
+        return createat;
+    }
+
+    public void setCreateat(String createat) {
+        this.createat = createat;
     }
 
 }

@@ -5,15 +5,152 @@ plugins {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '6.0-20190828220044+0000'
+}
+
+
+ext {
+    apply from: '../CordovaLib/cordova.gradle'
+
+    // The value for android.compileSdkVersion.
+    if (!project.hasProperty('cdvCompileSdkVersion')) {
+        cdvCompileSdkVersion = null;
+    }
+    // The value for android.buildToolsVersion.
+    if (!project.hasProperty('cdvBuildToolsVersion')) {
+        cdvBuildToolsVersion = null;
+    }
+    // Sets the versionCode to the given value.
+    if (!project.hasProperty('cdvVersionCode')) {
+        cdvVersionCode = null
+    }
+    // Sets the minSdkVersion to the given value.
+    if (!project.hasProperty('cdvMinSdkVersion')) {
+        cdvMinSdkVersion = null
+    }
+    // Sets the maxSdkVersion to the given value.
+    if (!project.hasProperty('cdvMaxSdkVersion')) {
+        cdvMaxSdkVersion = null
+    }
+    // The value for android.targetSdkVersion.
+    if (!project.hasProperty('cdvTargetSdkVersion')) {
+        cdvTargetSdkVersion = null;
+    }
+    // Whether to build architecture-specific APKs.
+    if (!project.hasProperty('cdvBuildMultipleApks')) {
+        cdvBuildMultipleApks = null
+    }
+    // Whether to append a 0 "abi digit" to versionCode when only a single APK is build
+    if (!project.hasProperty('cdvVersionCodeForceAbiDigit')) {
+        cdvVersionCodeForceAbiDigit = null
+    }
+    // .properties files to use for release signing.
+    if (!project.hasProperty('cdvReleaseSigningPropertiesFile')) {
+        cdvReleaseSigningPropertiesFile = null
+    }
+    // .properties files to use for debug signing.
+    if (!project.hasProperty('cdvDebugSigningPropertiesFile')) {
+        cdvDebugSigningPropertiesFile = null
+    }
+    // Set by build.js script.
+    if (!project.hasProperty('cdvBuildArch')) {
+        cdvBuildArch = null
+    }
+
+    // Plugin gradle extensions can append to this to have code run at the end.
+    cdvPluginPostBuildExtras = []
+}
+
+
+
+def hasBuildExtras1 = file('build-extras.gradle').exists()
+if (hasBuildExtras1) {
+    apply from: 'build-extras.gradle'
+}
+
+def hasBuildExtras2 = file('../build-extras.gradle').exists()
+if (hasBuildExtras2) {
+    apply from: '../build-extras.gradle'
+}
+
+// Set property defaults after extension .gradle files.
+ext.cdvCompileSdkVersion = cdvCompileSdkVersion == 33
+
+if (ext.cdvBuildToolsVersion == null) {
+    ext.cdvBuildToolsVersion = privateHelpers.findLatestInstalledBuildTools()
+    //ext.cdvBuildToolsVersion = project.ext.defaultBuildToolsVersion
+}
+if (ext.cdvDebugSigningPropertiesFile == null && file('../debug-signing.properties').exists()) {
+    ext.cdvDebugSigningPropertiesFile = '../debug-signing.properties'
+}
+if (ext.cdvReleaseSigningPropertiesFile == null && file('../release-signing.properties').exists()) {
+    ext.cdvReleaseSigningPropertiesFile = '../release-signing.properties'
+}
+
+// Cast to appropriate types.
+ext.cdvBuildMultipleApks = cdvBuildMultipleApks == null ? false : cdvBuildMultipleApks.toBoolean();
+ext.cdvVersionCodeForceAbiDigit = cdvVersionCodeForceAbiDigit == null ? false : cdvVersionCodeForceAbiDigit.toBoolean();
+
+// minSdkVersion, maxSdkVersion and targetSdkVersion
+ext.cdvMinSdkVersion = cdvMinSdkVersion ==21
+if (cdvMaxSdkVersion != null) {
+    ext.cdvMaxSdkVersion = Integer.parseInt('' + cdvMaxSdkVersion)
+}
+ext.cdvTargetSdkVersion = cdvTargetSdkVersion == 32
+
+ext.cdvVersionCode = cdvVersionCode == null ? null : Integer.parseInt('' + cdvVersionCode)
+
+def computeBuildTargetName(debugBuild) {
+    def ret = 'assemble'
+    if (cdvBuildMultipleApks && cdvBuildArch) {
+        def arch = cdvBuildArch == 'arm' ? 'armv7' : cdvBuildArch
+        ret += '' + arch.toUpperCase().charAt(0) + arch.substring(1);
+    }
+    return ret + (debugBuild ? 'Debug' : 'Release')
+}
+
+// Make cdvBuild a task that depends on the debug/arch-sepecific task.
+task cdvBuildDebug
+cdvBuildDebug.dependsOn {
+    return computeBuildTargetName(true)
+}
+
+task cdvBuildRelease
+cdvBuildRelease.dependsOn {
+    return computeBuildTargetName(false)
+}
+
+task cdvPrintProps {
+    doLast {
+        println('cdvCompileSdkVersion=' + cdvCompileSdkVersion)
+        println('cdvBuildToolsVersion=' + cdvBuildToolsVersion)
+        println('cdvVersionCode=' + cdvVersionCode)
+        println('cdvVersionCodeForceAbiDigit=' + cdvVersionCodeForceAbiDigit)
+        println('cdvMinSdkVersion=' + cdvMinSdkVersion)
+        println('cdvMaxSdkVersion=' + cdvMaxSdkVersion)
+        println('cdvTargetSdkVersion=' + cdvTargetSdkVersion)
+        println('cdvBuildMultipleApks=' + cdvBuildMultipleApks)
+        println('cdvReleaseSigningPropertiesFile=' + cdvReleaseSigningPropertiesFile)
+        println('cdvDebugSigningPropertiesFile=' + cdvDebugSigningPropertiesFile)
+        println('cdvBuildArch=' + cdvBuildArch)
+        println('computedVersionCode=' + android.defaultConfig.versionCode)
+        android.productFlavors.each { flavor ->
+            println('computed' + flavor.name.capitalize() + 'VersionCode=' + flavor.versionCode)
+        }
+    }
+}
+
+
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.myapps.onlysratchapp"
         minSdk 21
         targetSdk 32
-        versionCode 1
-        versionName "1.10"
+        versionCode 2
+        versionName "1.1"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -30,6 +167,15 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+
+    dependenciesInfo {
+        includeInApk true
+        includeInBundle true
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {
@@ -73,13 +219,13 @@ dependencies {
    // implementation 'cc.cloudist.acplibrary:library:1.2.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
    // implementation "com.shreyaspatil:EasyUpiPayment:2.0"
-
+    implementation(project(path: ":CordovaLib"))
 
 
 
 
     //AD MOB
-    implementation 'com.google.android.gms:play-services-ads:21.4.0'
+  //  implementation 'com.google.android.gms:play-services-ads:21.4.0'
 
     //FB
     implementation 'com.facebook.android:audience-network-sdk:6.+'
@@ -98,7 +244,7 @@ dependencies {
     implementation 'com.appnext.sdk:ads:2.6.8.473'
     implementation 'com.appnext.sdk:ads:2.+'
 
-    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+   // implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
     implementation 'androidx.annotation:annotation:1.1.0' // Mandatory
     implementation "androidx.work:work-runtime:2.4.0"  // Mandatory
 
@@ -138,6 +284,16 @@ dependencies {
 
     def lifecycle_version = "1.1.1"
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+
+    //puzzle
+    implementation 'com.google.android.ads.consent:consent-library:1.0.8'
+
+
+    //candy
+    implementation 'com.google.android.gms:play-services-base:17.4.0'
+    implementation 'com.google.android.gms:play-services-ads:19.4.0'
+    implementation 'com.google.android.ads.consent:consent-library:1.0.8'
+
 }
 //apply plugin: 'com.novoda.bintray-release'
 //apply plugin: 'applovin-quality-service'

@@ -8,9 +8,11 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -56,6 +58,10 @@ class DthRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteLi
     var cus_id=""
 
 
+    private var toolbar: Toolbar? = null
+    private var points_textView: TextView? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -68,6 +74,23 @@ class DthRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteLi
 
         cus_mobile = Constant.getString(this, Constant.USER_NUMBER)
         cus_id = Constant.getString(this, Constant.USER_ID)
+
+        toolbar = findViewById(R.id.toolbar)
+
+
+
+        try {
+            (this as AppCompatActivity).setSupportActionBar(toolbar)
+            (this as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(true)
+            (this as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            val titleText: TextView = toolbar!!.findViewById<TextView>(R.id.toolbarText)
+            titleText.text = "DTH Recharge"
+            points_textView = toolbar!!.findViewById<TextView>(R.id.points_text_in_toolbar)
+            setPointsText()
+            toolbar!!.setNavigationOnClickListener(View.OnClickListener { onBackPressed() })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         getOperatorApi(OPERATOR_DTH)
 
@@ -567,4 +590,13 @@ class DthRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteLi
         }
     }
 
+    private fun setPointsText() {
+        if (points_textView != null) {
+            var userPoints = Constant.getString(this, Constant.USER_POINTS)
+            if (userPoints.equals("", ignoreCase = true)) {
+                userPoints = "0"
+            }
+            points_textView!!.text = userPoints
+        }
+    }
 }

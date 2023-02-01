@@ -5,10 +5,10 @@ import com.myapps.onlysratchapp.utils.AppConstants
 
 object AppApiUrl : AppConstants {
     //Production Environment
-    var BASE_URL = "https://mewar.sahayatamoney.com"
+    var BASE_URL = "http://mewarpe.com"
     var OFFERS_URL = BASE_URL
 
-    var IMAGE_URL = "https://mewar.sahayatamoney.com"
+    var IMAGE_URL = "http://mewarpe.com"
 
     //API URLS
 
@@ -22,6 +22,8 @@ object AppApiUrl : AppConstants {
     val GETFORGOTOTP: String = BASE_URL + "/applogin/getpassotp"
     val FORGOT_PASS: String = BASE_URL + "/applogin/forgetPass"
     val NOTE: String = BASE_URL+"/applogin/note"
+
+
 
     // url =/appapi/
     val GET_AEPS_BALANCE: String = "$BASE_URL/appapi/aepsBalance"

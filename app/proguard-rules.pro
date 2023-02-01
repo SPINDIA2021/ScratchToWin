@@ -20,6 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class com.huawei.openalliance.ad.** { *; }
+-keep class com.huawei.hms.ads.** { *; }
+
 -keepattributes SourceFile,LineNumberTable
 -keep class com.inmobi.** { *; }
 -keep public class com.google.android.gms.**

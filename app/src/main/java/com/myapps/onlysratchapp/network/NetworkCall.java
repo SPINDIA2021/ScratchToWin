@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,6 +71,7 @@ public class NetworkCall {
         public void onFailure(@NotNull Call call, Throwable t) {
             dismissLoading();
             Util.showLog(t.getMessage());
+            Log.v("MobPrep","Api Error: "+t.getMessage());
             Util.showAlertBox(context, context.getString(R.string.technical_error), null);
             serviceCallBack.onFail(requestTag,t);
         }

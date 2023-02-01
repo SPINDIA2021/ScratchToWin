@@ -39,5 +39,11 @@ public interface DataSource {
 
     void getLevelData( String referalcode,ServiceCallBack myAppointmentPresenter, NetworkCall networkCall);
 
+    void getTransferUser( String mobile,ServiceCallBack myAppointmentPresenter, NetworkCall networkCall);
+
+    void savePointTransfer( String points,String transferTo,String transferFrom,ServiceCallBack myAppointmentPresenter, NetworkCall networkCall);
+
+    void getUPI(ServiceCallBack myAppointmentPresenter, NetworkCall networkCall);
+
 }
 

@@ -81,13 +81,23 @@ public class LoginPresenter implements LoginContract.Presenter, ServiceCallBack 
                     }*/
 
                     if (userData.getPoints() != null) {
-                        Constant.setString(context, Constant.USER_AMOUNT,userData.getPoints());
+                        Constant.setString(context, Constant.USER_POINTS,userData.getPoints());
                         Log.e("TAG", "onDataChange: " + userData.getPoints());
+                    }
+
+                    if (userData.getBalance() != null) {
+                        Constant.setString(context, Constant.USER_AMOUNT,userData.getBalance());
+                        Log.e("TAG", "onDataChange: " + userData.getBalance());
                     }
 
                     if (userData.getToken() != null) {
                         Constant.setString(context, Constant.TOKEN,userData.getToken());
                         Log.e("TAG", "onDataChange: " + userData.getToken());
+                    }
+
+                    if (userData.getPayoutactive() != null) {
+                        Constant.setString(context, Constant.PAYOUT_ACTIVE,userData.getPayoutactive());
+                        Log.e("TAG", "onDataChange: " + userData.getPayoutactive());
                     }
 
                     mLoginView.loginResponse(userData);
@@ -137,8 +147,18 @@ public class LoginPresenter implements LoginContract.Presenter, ServiceCallBack 
                     }
 
                     if (userData.getPoints() != null) {
-                        Constant.setString(context, Constant.USER_AMOUNT,userData.getPoints());
+                        Constant.setString(context, Constant.USER_POINTS,userData.getPoints());
                         Log.e("TAG", "onDataChange: " + userData.getPoints());
+                    }
+
+                    if (userData.getBalance() != null) {
+                        Constant.setString(context, Constant.USER_AMOUNT,userData.getBalance());
+                        Log.e("TAG", "onDataChange: " + userData.getBalance());
+                    }
+
+                    if (userData.getPayoutactive() != null) {
+                        Constant.setString(context, Constant.PAYOUT_ACTIVE,userData.getPayoutactive());
+                        Log.e("TAG", "onDataChange: " + userData.getPayoutactive());
                     }
 
                     mLoginView.verifyUserResponse(userData);
@@ -260,9 +280,20 @@ public class LoginPresenter implements LoginContract.Presenter, ServiceCallBack 
                     }
 
                     if (userData.getPoints() != null) {
-                        Constant.setString(context, Constant.USER_AMOUNT,userData.getPoints());
+                        Constant.setString(context, Constant.USER_POINTS,userData.getPoints());
                         Log.e("TAG", "onDataChange: " + userData.getPoints());
                     }
+
+                    if (userData.getBalance() != null) {
+                        Constant.setString(context, Constant.USER_AMOUNT,userData.getBalance());
+                        Log.e("TAG", "onDataChange: " + userData.getBalance());
+                    }
+
+                    if (userData.getPayoutactive() != null) {
+                        Constant.setString(context, Constant.PAYOUT_ACTIVE,userData.getPayoutactive());
+                        Log.e("TAG", "onDataChange: " + userData.getPayoutactive());
+                    }
+
                     mLoginView.verifySecondOTPResponse(userData);
 
 

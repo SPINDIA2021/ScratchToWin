@@ -68,7 +68,7 @@ import cc.cloudist.acplibrary.ACProgressFlower;*/
 
 public class WalletFragment extends Fragment implements  LoginContract.View {
     private LoginContract.Presenter presenter;
-    private TextView points_textView, minimum_redeem_text;
+    private TextView points_textView, amount_textView,minimum_redeem_text;
     private TextInputEditText name_editText, number_edit_text, upi_edit_text, points_edit_text;
     private TextInputLayout email_lyt, number_lyt;
     private AppCompatButton submit_btn;
@@ -110,6 +110,7 @@ public class WalletFragment extends Fragment implements  LoginContract.View {
         backImage = view.findViewById(R.id.back_img);
         minimum_redeem_text = view.findViewById(R.id.minimum_redeem_text);
         points_textView = view.findViewById(R.id.points_textView);
+        amount_textView = view.findViewById(R.id.points_textView);
         name_editText = view.findViewById(R.id.name_edit_text_redeem);
         number_lyt = view.findViewById(R.id.redeem_number_lyt);
         number_edit_text = view.findViewById(R.id.number_edit_text_redeem);
@@ -143,11 +144,22 @@ public class WalletFragment extends Fragment implements  LoginContract.View {
         if (amount.equalsIgnoreCase("")) {
             amount = "0";
         }
-        points_textView.setText(amount);
+        amount_textView.setText(amount);
 
-        if (amount.equals("0"))
+
+        String points = Constant.getString(mContext, Constant.USER_POINTS);
+        if (points.equalsIgnoreCase("")) {
+            points = "0";
+        }
+        points_textView.setText(points);
+
+        String payoutActive = Constant.getString(mContext, Constant.PAYOUT_ACTIVE);
+
+        if (amount.equals("0")|| payoutActive.equals("N"))
         {
             submit_btn.setVisibility(View.GONE);
+        }else {
+            submit_btn.setVisibility(View.VISIBLE);
         }
 
         String user_name = Constant.getString(mContext, Constant.USER_NAME);

@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 public class Constant {
     public static final String IS_LOGIN = "IsLogin";
     public static final String TOKEN = "Token";
+    public static final String PAYOUT_ACTIVE = "PayoutActive";
     public static final String USER_BLOCKED = "user_blocked";
     public static final String USER_NAME = "user_name";
     public static final String FIRST_NAME = "first_name";

@@ -3,15 +3,19 @@ package com.myapps.onlysratchapp.electricityRecharge
 import android.app.Dialog
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -22,18 +26,14 @@ import com.myapps.onlysratchapp.mobileRecharge.adapter.CircleListAdapter
 import com.myapps.onlysratchapp.mobileRecharge.adapter.OperatorListAdapter
 import com.myapps.onlysratchapp.mobileRecharge.model.CircleListModel
 import com.myapps.onlysratchapp.mobileRecharge.model.OperatorsModel
-import com.myapps.onlysratchapp.network_calls.UserModel
-
 import com.myapps.onlysratchapp.network_calls.AppApiCalls
 import com.myapps.onlysratchapp.utils.*
 import kotlinx.android.synthetic.main.activity_electricity_recharge.*
-
-import kotlinx.android.synthetic.main.fragment_mobile_prepaid.view.*
 import kotlinx.android.synthetic.main.layout_dialog_electricitybill.*
 import kotlinx.android.synthetic.main.layout_list_bottomsheet.view.*
-
+import kotlinx.android.synthetic.main.layout_list_bottomsheet.view.rvspinner
+import kotlinx.android.synthetic.main.layout_list_electircity_bottomsheet.view.*
 import org.json.JSONObject
-import java.util.ArrayList
 
 class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCompleteListener,
     OperatorListAdapter.ListAdapterListener, CircleListAdapter.ListAdapterListener{
@@ -70,6 +70,9 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
     var cus_pass=""
     var cus_id=""
 
+    private var toolbar: Toolbar? = null
+    private var points_textView: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -80,6 +83,8 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
         setContentView(R.layout.activity_electricity_recharge)
+
+        toolbar = findViewById(R.id.toolbar)
 
         cus_mobile = Constant.getString(this, Constant.USER_NUMBER)
         cus_id = Constant.getString(this, Constant.USER_ID)
@@ -143,6 +148,20 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
                     qr_opcode
                 )
             }
+        }
+
+
+        try {
+            (this as AppCompatActivity).setSupportActionBar(toolbar)
+            (this as AppCompatActivity).supportActionBar!!.setDisplayShowTitleEnabled(true)
+            (this as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            val titleText: TextView = toolbar!!.findViewById<TextView>(R.id.toolbarText)
+            titleText.text = "Service Payment"
+            points_textView = toolbar!!.findViewById<TextView>(R.id.points_text_in_toolbar)
+            setPointsText()
+            toolbar!!.setNavigationOnClickListener(View.OnClickListener { onBackPressed() })
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -337,6 +356,7 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
         if (flag.equals(GET_BILL_DETAILS)) {
             Log.e("GET_BILL_DETAILS", result)
             Log.v("ElectricityPrep","GET_BILL_DETAILS: result "+result)
+            Log.v("Electricity","GET_BILL_DETAILS: result "+result)
             toast(result)
             progress_bar.visibility = View.INVISIBLE
             val jsonObject = JSONObject(result)
@@ -589,7 +609,7 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
 
 
     private fun ShowBottomSheet() {
-        val view: View = layoutInflater.inflate(R.layout.layout_list_bottomsheet, null)
+        val view: View = layoutInflater.inflate(R.layout.layout_list_electircity_bottomsheet, null)
         view.rvspinner.apply {
 
             layoutManager = LinearLayoutManager(this@ElectricityRechargeActivity)
@@ -599,6 +619,7 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
             view.rvspinner.adapter = operatorAdapter
         }
 
+        view.edit_search.addTextChangedListener(textWatcher)
         bottomSheetDialog = BottomSheetDialog(this, R.style.SheetDialog)
         bottomSheetDialog!!.setContentView(view)
         val bottomSheetBehavior: BottomSheetBehavior<*> =
@@ -617,6 +638,8 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
             )
             view.rvspinner.adapter = circleListAdapter
         }
+
+
 
         bottomSheetDialog = BottomSheetDialog(this, R.style.SheetDialog)
         bottomSheetDialog!!.setContentView(view)
@@ -687,5 +710,28 @@ class ElectricityRechargeActivity : AppCompatActivity(), AppApiCalls.OnAPICallCo
             circle_code = circleListModel.code
             bottomSheetDialog!!.dismiss()
         }
+    }
+
+
+    private fun setPointsText() {
+        if (points_textView != null) {
+            var userPoints = Constant.getString(this, Constant.USER_POINTS)
+            if (userPoints.equals("", ignoreCase = true)) {
+                userPoints = "0"
+            }
+            points_textView!!.text = userPoints
+        }
+    }
+
+
+    var textWatcher: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            operatorAdapter.getFilter().filter(s)
+
+        }
+
+        override fun afterTextChanged(s: Editable?) {}
     }
 }

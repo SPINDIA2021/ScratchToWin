@@ -1,12 +1,16 @@
 package com.myapps.onlysratchapp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -21,12 +25,14 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 
+import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
@@ -49,10 +55,13 @@ import com.myapps.onlysratchapp.utils.Constant;
 import com.myapps.onlysratchapp.utils.Injection;
 import com.myapps.onlysratchapp.utils.LockableScrollView;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -76,8 +85,8 @@ public class SilverAdMobActivity extends AppCompatActivity implements ScratchLis
     private LockableScrollView scrollView;
     ProgressDialog progressDialog;
 
-    private InterstitialAd mInterstitialAd;
-    AdRequest adRequest;
+    protected InterstitialAd mInterstitialAd = null;
+
 
 
     @Override
@@ -85,16 +94,27 @@ public class SilverAdMobActivity extends AppCompatActivity implements ScratchLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_silver);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+        @SuppressLint("HardwareIds")
+        String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        String deviceId = md5(android_id).toUpperCase();
+        Log.d("device_id", "DEVICE ID : " + deviceId);
+        List<String> testDevices = new ArrayList<>();
+        testDevices.add(AdRequest.DEVICE_ID_EMULATOR);
+        testDevices.add(deviceId);
+
+        RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
+                .setTestDeviceIds(testDevices)
+                .build();
+        MobileAds.setRequestConfiguration(requestConfiguration);
+
+        MobileAds.initialize(getApplicationContext(), new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
-                Toast.makeText(getApplicationContext(),"INIT Success",Toast.LENGTH_SHORT).show();
-
-                loadRewardedAds();
             }
         });
 
-         adRequest = new AdRequest.Builder().build();
+        loadInterestialAd();
+
 
         initView();
 
@@ -533,49 +553,62 @@ public class SilverAdMobActivity extends AppCompatActivity implements ScratchLis
 
     private void loadInterestialAd()
     {
-        InterstitialAd.load(this,"ca-app-pub-7161060381095883/7982531878", adRequest,
-                new InterstitialAdLoadCallback() {
+        Bundle extras = new Bundle();
+        extras.putString("npa", gdpr_personalized_ads());
+
+        AdRequest adRequest = new AdRequest.Builder().addNetworkExtrasBundle(AdMobAdapter.class, extras).build();
+        //AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest, new InterstitialAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                // The mInterstitialAd reference will be null until
+                // an ad is loaded.
+                mInterstitialAd = interstitialAd;
+                Log.i("Jacob", "onAdLoaded");
+                mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
                     @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        // The mInterstitialAd reference will be null until
-                        // an ad is loaded.
-                        mInterstitialAd = interstitialAd;
-                        Log.i("TAG", "onAdLoaded");
-                        Toast.makeText(getApplicationContext(),"onAdLoaded.",Toast.LENGTH_SHORT).show();
+                    public void onAdDismissedFullScreenContent() {
+                        // Called when fullscreen content is dismissed.
+                        Log.d("Jacob", "The ad was dismissed.");
+                        loadInterestialAd();
                     }
+
                     @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error
-                        Log.i("TAG", loadAdError.getMessage());
-                        Toast.makeText(getApplicationContext(),loadAdError.getMessage(),Toast.LENGTH_SHORT).show();
+                    public void onAdFailedToShowFullScreenContent(AdError adError) {
+                        // Called when fullscreen content failed to show.
+                        Log.d("Jacob", "The ad failed to show.");
+                    }
+
+                    @Override
+                    public void onAdShowedFullScreenContent() {
+                        // Called when fullscreen content is shown.
+                        // Make sure to set your reference to null so you don't
+                        // show it a second time.
                         mInterstitialAd = null;
+                        Log.d("Jacob", "The ad was shown.");
                     }
                 });
+            }
 
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                // Handle the error
+                Log.i("Jacob", loadAdError.getMessage());
+                mInterstitialAd = null;
+            }
+        });
     }
 
     private void showInterstitialAds() {
 
-        InterstitialAd.load(this,"ca-app-pub-3940256099942544/8691691433", adRequest,
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        // The mInterstitialAd reference will be null until
-                        // an ad is loaded.
-                        mInterstitialAd = interstitialAd;
-                        mInterstitialAd.show(SilverAdMobActivity.this);
-                        progressDialog.dismiss();
-                        Log.i("TAG", "onAdLoaded");
-                    }
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error
-                        Log.i("TAG", loadAdError.getMessage());
-                        Toast.makeText(getApplicationContext(),loadAdError.getMessage(),Toast.LENGTH_LONG).show();
-                        progressDialog.dismiss();
-                        mInterstitialAd = null;
-                    }
-                });
+        if (mInterstitialAd == null) {
+            Log.d("Jacob", "The interstitial wasn't loaded yet.");
+            return;
+        }
+
+        Log.d("Jacob", "inter is loaded ...");
+        mInterstitialAd.show(this);
     }
 
 
@@ -692,4 +725,32 @@ public class SilverAdMobActivity extends AppCompatActivity implements ScratchLis
     }
 
 
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
+    public String gdpr_personalized_ads() {
+        if(!getApplicationContext().getResources().getBoolean(R.bool.enable_gdpr)){
+            return "0";
+        }
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return sharedPreferences.getString("IABTCF_VendorConsents", "0");
+    }
 }

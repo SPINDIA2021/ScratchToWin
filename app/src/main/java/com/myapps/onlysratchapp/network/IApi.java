@@ -2,6 +2,7 @@ package com.myapps.onlysratchapp.network;
 
 
 
+import com.myapps.onlysratchapp.addMoney.UPIResponse;
 import com.myapps.onlysratchapp.models.AdKeysResponse;
 import com.myapps.onlysratchapp.models.CoinsResponse;
 import com.myapps.onlysratchapp.models.ConversionResponse;
@@ -14,6 +15,8 @@ import com.myapps.onlysratchapp.models.VerifyUserResponse;
 import com.myapps.onlysratchapp.models.WithdrawalFirstResponse;
 import com.myapps.onlysratchapp.models.WithdrawalResponse;
 import com.myapps.onlysratchapp.passbook.PassbookResponse;
+import com.myapps.onlysratchapp.transferPoints.TRansferUserResponse;
+import com.myapps.onlysratchapp.transferPoints.TransferPointsResponse;
 
 import java.util.ArrayList;
 
@@ -27,9 +30,9 @@ import retrofit2.http.Part;
 public interface IApi {
 
 
-   String BASE_URL="https://mewar.sahayatamoney.com/Applogin/";
-
-
+   /*String BASE_URL="https://mewar.sahayatamoney.com/Applogin/";*/
+   String BASE_URL="http://mewarpe.com/Applogin/";
+//pocket.spindiabazaar.com
 
     int COMMON_TAG = 10031;
     int COMMON_TAG1 = 10032;
@@ -77,7 +80,7 @@ public interface IApi {
 
    @Multipart
    @POST("withdrawal.php")
-   Call<BaseResponse<WithdrawalResponse>> withdrawal(@Part("mobile") RequestBody mobile, @Part("referalcode") RequestBody referalcode, @Part("userflag") RequestBody userflag,
+   Call<BaseResponse<WithdrawalResponse>> withdrawal(@Part("mobile") RequestBody mobile, @Part("referalcode") RequestBody referalcode,
                                                      @Part("amount") RequestBody amount, @Part("upiid") RequestBody upiid, @Part("name") RequestBody name);
 
 
@@ -90,28 +93,41 @@ public interface IApi {
     Call<BaseResponse<WithdrawalFirstResponse>> withdrawalSecondVerify(@Part("userflag") RequestBody userflag, @Part("wid") RequestBody wid, @Part("otp") RequestBody otp);
 
     @Multipart
-    @POST("withdrawallist.php")
-    Call<BaseResponse<ArrayList<TransactionResponse>>> getTransactionHistory(@Part("referalcode") RequestBody referalcode );
+    @POST("historylist")
+    Call<BaseResponse<ArrayList<TransactionResponse>>> getTransactionHistory(@Part("referalcode") RequestBody referalcode,@Part("for") RequestBody forwhom );
 
     @Multipart
-    @POST("mobile.php")
-    Call<BaseResponse<ArrayList<PassbookResponse>>> getPassbookData(@Part("api") RequestBody api, @Part("referalcode") RequestBody referalcode );
+    @POST("historylist")
+    Call<BaseResponse<ArrayList<PassbookResponse>>> getPassbookData(@Part("for") RequestBody api, @Part("referalcode") RequestBody referalcode );
 
    @Multipart
    @POST("convertearning.php")
    Call<BaseResponse<ConversionResponse>> saveConvertEarning(@Part("apicase") RequestBody api, @Part("referalcode") RequestBody referalcode , @Part("point") RequestBody point);
 
    @Multipart
-   @POST("coins.php")
+   @POST("coins")
    Call<BaseResponse> saveCoins(@Part("api") RequestBody api, @Part("referalcode") RequestBody referalcode , @Part("coins") RequestBody coins);
 
 
     @Multipart
-    @POST("coins.php")
-    Call<BaseResponse<ArrayList<CoinsResponse>>> getCoinsData(@Part("api") RequestBody api, @Part("referalcode") RequestBody referalcode );
+    @POST("historylist")
+    Call<BaseResponse<ArrayList<CoinsResponse>>> getCoinsData(@Part("for") RequestBody api, @Part("referalcode") RequestBody referalcode );
 
     @Multipart
     @POST("link.php")
     Call<BaseResponse<ArrayList<LevelResponse>>> getLevelData(@Part("api") RequestBody api, @Part("referalcode") RequestBody referalcode );
+
+
+    @Multipart
+    @POST("getnamefrommobile")
+    Call<BaseResponse<TRansferUserResponse>> getTransferUser( @Part("mobile") RequestBody mobile );
+
+
+    @Multipart
+    @POST("pointtransfertootheruser")
+    Call<BaseResponse<TransferPointsResponse>> savePointTransfer(@Part("point") RequestBody point, @Part("transferto") RequestBody transferto, @Part("transferfrom") RequestBody transferfrom );
+
+    @POST("adminupiid")
+    Call<BaseResponse<UPIResponse>> getUPI();
 
 }
