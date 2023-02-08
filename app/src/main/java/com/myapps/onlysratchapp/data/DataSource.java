@@ -45,5 +45,7 @@ public interface DataSource {
 
     void getUPI(ServiceCallBack myAppointmentPresenter, NetworkCall networkCall);
 
+    void getCategory(ServiceCallBack myAppointmentPresenter, NetworkCall networkCall);
+
 }
 

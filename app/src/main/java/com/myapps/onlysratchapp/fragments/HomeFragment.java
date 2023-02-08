@@ -55,6 +55,7 @@ import com.myapps.onlysratchapp.adapter.HomeAdapter;
 import com.myapps.onlysratchapp.addMoney.AddMoneyActivity;
 import com.myapps.onlysratchapp.addMoney.AddMoneyActivityNew;
 import com.myapps.onlysratchapp.candycrush.CandyMainActivity;
+import com.myapps.onlysratchapp.category.CategoryActivity;
 import com.myapps.onlysratchapp.dth.DthRechargeActivity;
 import com.myapps.onlysratchapp.electricityRecharge.ElectricityRechargeActivity;
 import com.myapps.onlysratchapp.kotak.KotaKInnerActivity;
@@ -210,6 +211,7 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
         homeResponseArrayList.add(new HomeResponse(R.drawable.ludo, "LUDO"));
         homeResponseArrayList.add(new HomeResponse(R.drawable.puzzle, "PUZZLE"));
         homeResponseArrayList.add(new HomeResponse(R.drawable.candy, "Candy Crush"));
+        homeResponseArrayList.add(new HomeResponse(R.drawable.category, "Category"));
 
         recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(),2));
          HomeAdapter adapter=new HomeAdapter(homeResponseArrayList, getActivity(),itemClick);
@@ -905,6 +907,14 @@ public class HomeFragment extends Fragment implements AppApiCalls.OnAPICallCompl
             {
                 try {
                     Intent policyintent = new Intent(activity, CandyMainActivity.class);
+                    startActivity(policyintent);
+                } catch (Exception e) {
+                    Constant.showToastMessage(activity, e.getMessage());
+                }
+            }else if (i==47)
+            {
+                try {
+                    Intent policyintent = new Intent(activity, CategoryActivity.class);
                     startActivity(policyintent);
                 } catch (Exception e) {
                     Constant.showToastMessage(activity, e.getMessage());

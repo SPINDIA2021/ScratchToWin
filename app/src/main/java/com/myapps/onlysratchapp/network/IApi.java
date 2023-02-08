@@ -3,6 +3,7 @@ package com.myapps.onlysratchapp.network;
 
 
 import com.myapps.onlysratchapp.addMoney.UPIResponse;
+import com.myapps.onlysratchapp.category.CategoryResponse;
 import com.myapps.onlysratchapp.models.AdKeysResponse;
 import com.myapps.onlysratchapp.models.CoinsResponse;
 import com.myapps.onlysratchapp.models.ConversionResponse;
@@ -129,5 +130,9 @@ public interface IApi {
 
     @POST("adminupiid")
     Call<BaseResponse<UPIResponse>> getUPI();
+
+    @Multipart
+    @POST("historylist")
+    Call<BaseResponse<ArrayList<CategoryResponse>>> getCategory(@Part("for") RequestBody foruser );
 
 }

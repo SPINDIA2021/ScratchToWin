@@ -3,6 +3,7 @@ package com.myapps.onlysratchapp.data.remote;
 
 
 import com.myapps.onlysratchapp.addMoney.UPIResponse;
+import com.myapps.onlysratchapp.category.CategoryResponse;
 import com.myapps.onlysratchapp.data.DataSource;
 import com.myapps.onlysratchapp.models.AdKeysResponse;
 import com.myapps.onlysratchapp.models.CoinsResponse;
@@ -356,6 +357,21 @@ public class RemoteDataSource implements DataSource {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void getCategory(ServiceCallBack myAppointmentPresenter, NetworkCall networkCall) {
+        try{
+
+            RequestBody for1 = RequestBody.create(MediaType.parse("text/plain"), "appcategory");
+            Call<BaseResponse<ArrayList<CategoryResponse>>> responceCall = networkCall.getRetrofit(true, true).getCategory(for1);
+            networkCall.setServiceCallBack(myAppointmentPresenter);
+            networkCall.setRequestTag(IApi.COMMON_TAG);
+            responceCall.enqueue(networkCall.requestCallback());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 

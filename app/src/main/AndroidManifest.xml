@@ -218,6 +218,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppFullScreenTheme"/>
 
+        <activity android:name=".category.CategoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+        <activity android:name=".category.InnerCategoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppFullScreenTheme"/>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
